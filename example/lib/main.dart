@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hypertext_example/home_page.dart';
+import 'package:flutter_hypertext_example/settings.dart';
+
+import 'l10n/localization_intl.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const HypertextApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class HypertextApp extends StatefulWidget {
+  const HypertextApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<HypertextApp> createState() => _HypertextAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HypertextAppState extends State<HypertextApp> {
   @override
   void initState() {
     super.initState();
@@ -19,11 +23,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Plugin example app')),
-        body: Center(),
-      ),
+    return ListenableBuilder(
+      listenable: settings,
+      builder: (context, child) {
+        return MaterialApp(
+          themeMode: settings.themeMode,
+          theme: settings.lightTheme,
+          darkTheme: settings.darkTheme,
+          locale: settings.local,
+          localizationsDelegates: L.localizationsDelegates,
+          supportedLocales: L.supportedLocales,
+          home: HomePage(),
+        );
+      },
     );
   }
 }

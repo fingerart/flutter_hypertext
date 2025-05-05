@@ -1,0 +1,19 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'localization_intl.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class LZh extends L {
+  LZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get description => '<style size=30><gradient colors=\'appGreen,appOrange\' alignment=middle>Hypertext</gradient></style><gap=5 />是一个基于 <img src=\'https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png\' height=30 width=102 /> 的<padding hor=5><style color=appBlue decor=underline decor-color=labelTertiary decor-style=wavy>高扩展性</style></padding>的富文本组件。';
+
+  @override
+  String get cases => '<color=labelTertiary>常见的使用场景：</color>\n1. 多语言下的富文本<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-zh\' cursor=click title=\'点击切换到中文\'>中文</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-en\' cursor=click title=\'Click to switch English\'>English</a></style>\n2. 多主题下的富文本<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-dark\' cursor=click title=\'点击切换到暗黑模式\'>暗黑模式</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-light\' cursor=click title=\'点击切换到日间模式\'>日间模式</a></style>\n3. 高亮关键字\n<gap=20 />......';
+
+  @override
+  String get visitGitHub => '<img src=\'asset://assets/images/github-mark.png\' size=20 /> 点击<a href=\'https://github.com/fingerart/flutter_hypertext\' cursor=click title=\'打开GitHub\'><text-decor underline>这里</text-decor></a>访问<style background=labelTertiary> GitHub </style>仓库';
+}
