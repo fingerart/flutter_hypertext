@@ -70,7 +70,7 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+6
+  flutter_hypertext: ^0.0.1+7
 ```
 
 ```dart

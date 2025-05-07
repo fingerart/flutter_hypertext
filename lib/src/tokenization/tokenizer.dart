@@ -39,8 +39,6 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
 
   TagToken get _curTagToken => _curToken as TagToken;
 
-  StringToken get _curStringToken => _curToken as StringToken;
-
   /// 当前属性对象列表
   List<TagAttribute>? _attributes;
   Set<String>? _attributeNames;

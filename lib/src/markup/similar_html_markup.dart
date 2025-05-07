@@ -337,8 +337,8 @@ class FontWeightMarkup extends StyleMarkup {
   const FontWeightMarkup({super.tag = 'weight', super.alias, super.weight});
 
   @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    FontWeight? weight = optFontWeight(context);
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    FontWeight? weight = optFontWeight(ctx);
 
     TextStyle? style;
     if (weight != null) style = TextStyle(fontWeight: weight);
@@ -424,8 +424,8 @@ class TextDecorationMarkup extends StyleMarkup {
   });
 
   @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    final decor = optTextDecoration(context);
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    final decor = optTextDecoration(ctx);
     TextStyle? style;
     if (decor != null) {
       style = TextStyle(
@@ -494,8 +494,8 @@ class ColorMarkup extends StyleMarkup {
   const ColorMarkup({super.tag = 'color', super.colorMapper});
 
   @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    final color = optColor(context);
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    final color = optColor(ctx);
     TextStyle? style = color != null ? TextStyle(color: color) : null;
     return HypertextTextSpan(children: children, style: style);
   }
@@ -517,8 +517,8 @@ class SizeMarkup extends StyleMarkup {
   const SizeMarkup() : super(tag: 'size');
 
   @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    final size = optFontSize(context);
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    final size = optFontSize(ctx);
     TextStyle? style = size != null ? TextStyle(fontSize: size) : null;
     return HypertextTextSpan(children: children, style: style);
   }

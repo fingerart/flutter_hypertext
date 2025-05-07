@@ -26,6 +26,7 @@ mixin HypertextSpan on InlineSpan {
 }
 
 /// 具有遗传样式特性的[TextSpan]
+// ignore: must_be_immutable
 class HypertextTextSpan extends TextSpan with HypertextSpan {
   HypertextTextSpan({
     super.text,
@@ -42,6 +43,7 @@ class HypertextTextSpan extends TextSpan with HypertextSpan {
 }
 
 /// 具有遗传样式特性的[WidgetSpan]
+// ignore: must_be_immutable
 class HypertextWidgetSpan extends WidgetSpan with HypertextSpan {
   HypertextWidgetSpan({
     required super.child,
@@ -52,7 +54,6 @@ class HypertextWidgetSpan extends WidgetSpan with HypertextSpan {
   });
 
   /// 是否启用样式的遗传
-  @override
   final bool enableInherit;
 
   @override
@@ -68,6 +69,7 @@ class HypertextWidgetSpan extends WidgetSpan with HypertextSpan {
   }
 }
 
+// ignore: unused_element
 mixin _MultipleRecognizerMixin on HitTestTarget {
   List<GestureRecognizer>? get recognizers;
 

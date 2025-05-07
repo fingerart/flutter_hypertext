@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../span.dart';
 import '../utils.dart';
+import '_markup_io.dart' if (dart.library.js_util) '_markup_web.dart';
 import 'context.dart';
 import 'markup.dart';
 
@@ -24,7 +23,7 @@ import 'markup.dart';
 /// ```
 class GradientMarkup extends TagMarkup {
   const GradientMarkup({String tag = 'gradient', this.alignment, this.baseline})
-    : super(tag);
+      : super(tag);
 
   /// How the placeholder aligns vertically with the text.
   ///
@@ -72,8 +71,7 @@ class GradientMarkup extends TagMarkup {
 
     final effectiveAlignment =
         alignment ?? this.alignment ?? PlaceholderAlignment.baseline;
-    final effectiveBaseline =
-        baseline ??
+    final effectiveBaseline = baseline ??
         this.baseline ??
         (this.alignment == null ? TextBaseline.alphabetic : null);
 
@@ -83,16 +81,18 @@ class GradientMarkup extends TagMarkup {
       tileMode: tileMode ?? TileMode.clamp,
       transform: transform,
     );
+    /* 需要显示设置为白色 */
+    const textStyle = TextStyle(
+      color: Colors.white,
+      decorationColor: Colors.white,
+    );
     return HypertextWidgetSpan(
       alignment: effectiveAlignment,
       baseline: effectiveBaseline,
       child: ShaderMask(
         shaderCallback: gradient.createShader,
         child: Text.rich(
-          HypertextTextSpan(
-            children: children,
-            style: TextStyle(color: Colors.white), // 需要显示设置为白色
-          ),
+          HypertextTextSpan(children: children, style: textStyle),
         ),
       ),
     );
@@ -100,15 +100,14 @@ class GradientMarkup extends TagMarkup {
 }
 
 /// ImageMarkup的图片构建器
-typedef ImageMarkupBuilder =
-    Widget? Function(
-      BuildContext context,
-      String url, {
-      double? width,
-      double? height,
-      BoxFit? fit,
-      Alignment? alignment,
-    });
+typedef ImageMarkupBuilder = Widget? Function(
+  BuildContext context,
+  String url, {
+  double? width,
+  double? height,
+  BoxFit? fit,
+  Alignment? alignment,
+});
 
 /// 图片标记
 ///
@@ -126,7 +125,7 @@ class ImageMarkup extends TagMarkup {
   const ImageMarkup([
     this.alignment,
     this.baseline,
-    this.imageBuilder = _sImageBuilder,
+    this.imageBuilder = imageMarkupBuilder,
   ]) : super('img', alias: const {'image'});
 
   /// How the placeholder aligns vertically with the text.
@@ -169,7 +168,7 @@ class ImageMarkup extends TagMarkup {
           plAlignment ?? this.alignment ?? PlaceholderAlignment.middle;
       final effectiveBaseline = baseline ?? this.baseline;
 
-      final builder = imageBuilder ?? _sImageBuilder;
+      final builder = imageBuilder ?? imageMarkupBuilder;
 
       span = HypertextWidgetSpan(
         alignment: effectiveAlignment,
@@ -198,43 +197,6 @@ class ImageMarkup extends TagMarkup {
     }
 
     return span ?? kEmptyHypertextSpan;
-  }
-
-  /// 默认的内置图片构建器
-  /// 一般由外部提供，比如[NetworkImage]没有缓存功能
-  static Widget? _sImageBuilder(
-    BuildContext context,
-    String uri, {
-    double? width,
-    double? height,
-    BoxFit? fit,
-    Alignment? alignment,
-  }) {
-    if (uri.startsWith(RegExp("https?://"))) {
-      return Image.network(
-        uri,
-        width: width,
-        height: height,
-        alignment: alignment ?? Alignment.center,
-        fit: fit,
-      );
-    }
-    if (uri.startsWith("asset://")) {
-      return Image.asset(
-        uri.substring(8),
-        width: width,
-        height: height,
-        alignment: alignment ?? Alignment.center,
-        fit: fit,
-      );
-    }
-    return Image.file(
-      File(uri),
-      width: width,
-      height: height,
-      alignment: alignment ?? Alignment.center,
-      fit: fit,
-    );
   }
 }
 
@@ -282,17 +244,17 @@ class PaddingMarkup extends TagMarkup {
       1 => EdgeInsets.all(gaps![0]),
       2 => EdgeInsets.symmetric(vertical: gaps![0], horizontal: gaps[1]),
       3 => EdgeInsets.only(
-        top: gaps![0],
-        left: gaps[1],
-        right: gaps[1],
-        bottom: gaps[2],
-      ),
+          top: gaps![0],
+          left: gaps[1],
+          right: gaps[1],
+          bottom: gaps[2],
+        ),
       4 => EdgeInsets.only(
-        left: gaps![0],
-        top: gaps[1],
-        right: gaps[2],
-        bottom: gaps[3],
-      ),
+          left: gaps![0],
+          top: gaps[1],
+          right: gaps[2],
+          bottom: gaps[3],
+        ),
       _ => null,
     };
 
@@ -325,8 +287,7 @@ class PaddingMarkup extends TagMarkup {
 
     final effectiveAlignment =
         alignment ?? this.alignment ?? PlaceholderAlignment.baseline;
-    final effectiveBaseline =
-        baseline ??
+    final effectiveBaseline = baseline ??
         this.baseline ??
         (this.alignment == null ? TextBaseline.alphabetic : null);
     return HypertextWidgetSpan(
@@ -343,7 +304,7 @@ class PaddingMarkup extends TagMarkup {
 /// 邮件地址标记
 class EmailMarkup extends PatternMarkup {
   EmailMarkup(this.style, {String pattern = emailPattern})
-    : super(pattern, caseSensitive: false);
+      : super(pattern, caseSensitive: false);
 
   final TextStyle style;
 
@@ -356,7 +317,7 @@ class EmailMarkup extends PatternMarkup {
 /// 提及用户标记
 class MentionMarkup extends PatternMarkup {
   MentionMarkup(this.style, {String pattern = mentionPattern})
-    : super(pattern, startCharacter: '@', caseSensitive: false);
+      : super(pattern, startCharacter: '@', caseSensitive: false);
 
   final TextStyle style;
 

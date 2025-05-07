@@ -462,7 +462,7 @@ const mpTextDecoration = {
 
 /// 电子邮箱模式
 const emailPattern =
-    '([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4})((,[\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4}){1,})?';
+    r'([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4})((,[\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4}){1,})?';
 
 /// 提及用户
 const mentionPattern = '@[a-z0-9_-]+';
