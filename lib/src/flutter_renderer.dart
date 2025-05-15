@@ -223,7 +223,24 @@ class _HypertextState extends State<Hypertext> {
 
   @override
   Widget build(BuildContext ctx) {
-    if (_children == null) return Text(widget.text);
+    if (_children == null) {
+      return Text(
+        widget.text,
+        style: widget.style,
+        strutStyle: widget.strutStyle,
+        textAlign: widget.textAlign,
+        textDirection: widget.textDirection,
+        locale: widget.locale,
+        softWrap: widget.softWrap,
+        overflow: widget.overflow,
+        textScaler: widget.textScaler,
+        maxLines: widget.maxLines,
+        semanticsLabel: widget.semanticsLabel,
+        textWidthBasis: widget.textWidthBasis,
+        textHeightBehavior: widget.textHeightBehavior,
+        selectionColor: widget.selectionColor,
+      );
+    }
 
     // 将当前顶层样式通过[HypertextSpan]进行传递
     final inheritedStyle = DefaultTextStyle.of(ctx).style.merge(widget.style);
@@ -236,6 +253,7 @@ class _HypertextState extends State<Hypertext> {
       textDirection: widget.textDirection,
       locale: widget.locale,
       softWrap: widget.softWrap,
+      overflow: widget.overflow,
       textScaler: widget.textScaler,
       maxLines: widget.maxLines,
       semanticsLabel: widget.semanticsLabel,

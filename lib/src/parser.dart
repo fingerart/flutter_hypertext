@@ -21,13 +21,13 @@ class HypertextParser {
     this.eventHandler,
     this.colorMapper,
     bool? ignoreErrorMarkup,
-  }) : _markups = markups,
-       _ignoreErrorMarkup = ignoreErrorMarkup ?? false,
-       _tokenizer = HypertextTokenizer(
-         text,
-         lowercaseAttrName: lowercaseAttrName ?? true,
-         lowercaseElementName: lowercaseElementName ?? true,
-       );
+  })  : _markups = markups,
+        _ignoreErrorMarkup = ignoreErrorMarkup ?? false,
+        _tokenizer = HypertextTokenizer(
+          text,
+          lowercaseAttrName: lowercaseAttrName ?? true,
+          lowercaseElementName: lowercaseElementName ?? true,
+        );
 
   final HypertextEventHandler? eventHandler;
 

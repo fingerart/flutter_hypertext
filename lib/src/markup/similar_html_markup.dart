@@ -248,6 +248,7 @@ class StyleMarkup extends TagMarkup {
     bool enableTagAttr = true,
   }) {
     FontWeight? weight = this.weight;
+
     int? w;
     if (enableTagAttr) {
       w = ctx.getIntBy(tags, 'weight');
@@ -256,6 +257,11 @@ class StyleMarkup extends TagMarkup {
     if (w != null) {
       weight = FontWeight.lerp(FontWeight.w100, FontWeight.w900, w / 900);
     }
+
+    const weightAlias = {'bold': FontWeight.bold, 'normal': FontWeight.normal};
+    weight ??= ctx.switchT(ctx.getBy(tags, 'weight'), weightAlias);
+    print('weight:$weight');
+
     return weight;
   }
 
@@ -264,7 +270,7 @@ class StyleMarkup extends TagMarkup {
     MarkupContext ctx, {
     bool enableTagAttr = true,
   }) {
-    final params = {'normal': FontStyle.normal, 'italic': FontStyle.italic};
+    const params = {'normal': FontStyle.normal, 'italic': FontStyle.italic};
     FontStyle? fs;
     if (enableTagAttr) {
       fs ??= ctx.whenExist(params);
@@ -326,7 +332,7 @@ class StyleMarkup extends TagMarkup {
 ///
 /// 有效的Tag名称：[weight]
 /// 参数：
-/// - weight: [100-900]
+/// - weight: [100-900|bold|normal]
 ///
 /// 示例：
 /// ```
