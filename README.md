@@ -176,18 +176,18 @@ Sets text styles for a specified range, such as text color, background color, fo
 
 Parameters:
 
-| Parameter     | Value                                                          | Required | Description                                                                                                             |
-|---------------|----------------------------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------|
-| `color`       | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Text color, default supports [CSS Basic Colors](https://www.w3.org/wiki/CSS/Properties/color/keywords)[kBasicCSSColors] |
-| `background`  | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Text background color                                                                                                   |
-| `size`        | double                                                         | ☑️       | Text size                                                                                                               |
-| `font-family` | font family name                                               | ☑️       | Font family                                                                                                             |
-| `weight`      | `100`~`900`                                                    | ☑️       | See [FontWeight]                                                                                                        |
-| `font-style`  | `normal` `italic`                                              | ☑️       | Font style [FontStyle]                                                                                                  |
-| `decor`       | `none` `underline` `overline` `lineThrough`                    | ☑️       | Text decoration [TextDecoration]                                                                                        |
-| `decor-style` | `double` `dashed` `dotted` `solid` `wavy`                      | ☑️       | Decoration style [TextDecorationStyle]                                                                                  |
-| `decor-color` | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                                                                                                        |
-| `thickness`   | double                                                         | ☑️       | Decoration line thickness                                                                                               |
+| Parameter     | Value                                                  | Required | Description                                                                                                             |
+|---------------|--------------------------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------|
+| `color`       | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Text color, default supports [CSS Basic Colors](https://www.w3.org/wiki/CSS/Properties/color/keywords)[kBasicCSSColors] |
+| `background`  | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Text background color                                                                                                   |
+| `size`        | double                                                 | ☑️       | Text size                                                                                                               |
+| `font-family` | font family name                                       | ☑️       | Font family                                                                                                             |
+| `weight`      | `100`~`900`、`bold`、`normal`                            | ☑️       | See [FontWeight]                                                                                                        |
+| `font-style`  | `normal` `italic`                                      | ☑️       | Font style [FontStyle]                                                                                                  |
+| `decor`       | `none` `underline` `overline` `lineThrough`            | ☑️       | Text decoration [TextDecoration]                                                                                        |
+| `decor-style` | `double` `dashed` `dotted` `solid` `wavy`              | ☑️       | Decoration style [TextDecorationStyle]                                                                                  |
+| `decor-color` | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                                                                                                        |
+| `thickness`   | double                                                 | ☑️       | Decoration line thickness                                                                                               |
 
 Example:
 
@@ -202,9 +202,9 @@ Example:
 
 Tag: `weight`
 
-| Parameter             | Value       | Required | Description      |
-|-----------------------|-------------|----------|------------------|
-| `weight` (simplified) | `100`~`900` | ✅️       | See [FontWeight] |
+| Parameter           | Value                       | Required | Description      |
+|---------------------|-----------------------------|----------|------------------|
+| `weight` (simplify) | `100`~`900`、`bold`、`normal` | ✅️       | See [FontWeight] |
 
 Example:
 
@@ -217,9 +217,9 @@ Example:
 
 Tags: `b` `bold` `strong`
 
-| Parameter             | Value       | Required | Description      |
-|-----------------------|-------------|----------|------------------|
-| `weight` (simplified) | `100`~`900` | ✅️       | See [FontWeight] |
+| Parameter           | Value                       | Required | Description      |
+|---------------------|-----------------------------|----------|------------------|
+| `weight` (simplify) | `100`~`900`、`bold`、`normal` | ✅️       | See [FontWeight] |
 
 ```html
 <b>Hypertext</b>
@@ -231,9 +231,9 @@ Tags: `b` `bold` `strong`
 
 Tag: `font-style`
 
-| Parameter                 | Value             | Required | Description      |
-|---------------------------|-------------------|----------|------------------|
-| `font-style` (simplified) | `normal` `italic` | ✅        | See [FontWeight] |
+| Parameter               | Value             | Required | Description      |
+|-------------------------|-------------------|----------|------------------|
+| `font-style` (simplify) | `normal` `italic` | ✅        | See [FontWeight] |
 
 Example:
 
@@ -256,12 +256,12 @@ Example:
 
 Tag: `text-decor`
 
-| Parameter            | Value                                                          | Required | Description                            |
-|----------------------|----------------------------------------------------------------|----------|----------------------------------------|
-| `decor` (simplified) | `none` `underline` `overline` `lineThrough`                    | ✅        | Text decoration [TextDecoration]       |
-| `style`              | `double` `dashed` `dotted` `solid` `wavy`                      | ☑️       | Decoration style [TextDecorationStyle] |
-| `color`              | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
-| `thickness`          | double                                                         | ☑️       | Decoration line thickness              |
+| Parameter          | Value                                                  | Required | Description                            |
+|--------------------|--------------------------------------------------------|----------|----------------------------------------|
+| `decor` (simplify) | `none` `underline` `overline` `lineThrough`            | ✅        | Text decoration [TextDecoration]       |
+| `style`            | `double` `dashed` `dotted` `solid` `wavy`              | ☑️       | Decoration style [TextDecorationStyle] |
+| `color`            | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
+| `thickness`        | double                                                 | ☑️       | Decoration line thickness              |
 
 Example:
 
@@ -274,11 +274,11 @@ Example:
 
 Tag: `del`
 
-| Parameter            | Value                                                          | Required | Description                            |
-|----------------------|----------------------------------------------------------------|----------|----------------------------------------|
-| `style`              | `double` `dashed` `dotted` `solid` `wavy`                      | ☑️       | Decoration style [TextDecorationStyle] |
-| `color`              | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
-| `thickness`          | double                                                         | ☑️       | Decoration line thickness              |
+| Parameter   | Value                                                  | Required | Description                            |
+|-------------|--------------------------------------------------------|----------|----------------------------------------|
+| `style`     | `double` `dashed` `dotted` `solid` `wavy`              | ☑️       | Decoration style [TextDecorationStyle] |
+| `color`     | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
+| `thickness` | double                                                 | ☑️       | Decoration line thickness              |
 
 Example:
 
@@ -290,11 +290,11 @@ Example:
 
 Tag: `u` `ins`
 
-| Parameter            | Value                                                          | Required | Description                            |
-|----------------------|----------------------------------------------------------------|----------|----------------------------------------|
-| `style`              | `double` `dashed` `dotted` `solid` `wavy`                      | ☑️       | Decoration style [TextDecorationStyle] |
-| `color`              | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
-| `thickness`          | double                                                         | ☑️       | Decoration line thickness              |
+| Parameter   | Value                                                  | Required | Description                            |
+|-------------|--------------------------------------------------------|----------|----------------------------------------|
+| `style`     | `double` `dashed` `dotted` `solid` `wavy`              | ☑️       | Decoration style [TextDecorationStyle] |
+| `color`     | [Hex Color](#hex-colors) or [Color Name](#color-names) | ☑️       | Decoration color                       |
+| `thickness` | double                                                 | ☑️       | Decoration line thickness              |
 
 Example:
 
@@ -308,9 +308,9 @@ Tag: `color`
 
 Parameters:
 
-| Parameter            | Value                                                          | Required | Description |
-|----------------------|----------------------------------------------------------------|----------|-------------|
-| `color` (simplified) | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ✅        | Text color  |
+| Parameter          | Value                                                  | Required | Description |
+|--------------------|--------------------------------------------------------|----------|-------------|
+| `color` (simplify) | [Hex Color](#hex-colors) or [Color Name](#color-names) | ✅        | Text color  |
 
 Example:
 
@@ -325,9 +325,9 @@ Tag: `size`
 
 Parameters:
 
-| Parameter           | Value  | Required | Description |
-|---------------------|--------|----------|-------------|
-| `size` (simplified) | double | ✅        | Text size   |
+| Parameter         | Value  | Required | Description |
+|-------------------|--------|----------|-------------|
+| `size` (simplify) | double | ✅        | Text size   |
 
 Example:
 
@@ -344,14 +344,14 @@ Tag: `gradient`
 
 Parameters:
 
-| Parameter   | Value                                                          | Required | Description                                                    |
-|-------------|----------------------------------------------------------------|----------|----------------------------------------------------------------|
-| `colors`    | [Hexadecimal Color](#hex-colors) or [Color Name](#color-names) | ✅        | Gradient colors                                                |
-| `stops`     | List<double>                                                   | ☑️       | Values between 0.0 and 1.0 for gradient stops [LinearGradient] |
-| `rotation`  | Angle (0~360)                                                  | ☑️       | Rotation angle for gradient                                    |
-| `tile-mode` | `clamp` (default) `repeated` `mirror` `decal`                  | ☑️       | Tiling mode                                                    |
-| `alignment` | `baseline` `middle` `top` `bottom`...                          | ☑️       | See [PlaceholderAlignment]                                     |
-| `baseline`  | `alphabetic` `ideographic`                                     | ☑️       | See [TextBaseline]                                             |
+| Parameter   | Value                                                  | Required | Description                                                    |
+|-------------|--------------------------------------------------------|----------|----------------------------------------------------------------|
+| `colors`    | [Hex Color](#hex-colors) or [Color Name](#color-names) | ✅        | Gradient colors                                                |
+| `stops`     | List<double>                                           | ☑️       | Values between 0.0 and 1.0 for gradient stops [LinearGradient] |
+| `rotation`  | Angle (0~360)                                          | ☑️       | Rotation angle for gradient                                    |
+| `tile-mode` | `clamp` (default) `repeated` `mirror` `decal`          | ☑️       | Tiling mode                                                    |
+| `alignment` | `baseline` `middle` `top` `bottom`...                  | ☑️       | See [PlaceholderAlignment]                                     |
+| `baseline`  | `alphabetic` `ideographic`                             | ☑️       | See [TextBaseline]                                             |
 
 Example:
 
@@ -398,9 +398,9 @@ Tag: `gap`
 
 Parameters:
 
-| Parameter          | Value  | Required | Description |
-|--------------------|--------|----------|-------------|
-| `gap` (simplified) | double | ✅        | Gap size    |
+| Parameter        | Value  | Required | Description |
+|------------------|--------|----------|-------------|
+| `gap` (simplify) | double | ✅        | Gap size    |
 
 Example:
 
@@ -417,13 +417,13 @@ Tag: `padding`
 
 Parameters:
 
-| Parameter              | Value                                 | Required | Description                                  |
-|------------------------|---------------------------------------|----------|----------------------------------------------|
-| `padding` (simplified) | double                                | ✅        | [Padding value](#margin-values) (1~4 values) |
-| `hor`                  | List\<double\>                        | ☑️       | Horizontal padding (1~2 values)              |
-| `ver`                  | List\<double\>                        | ☑️       | Vertical padding (1~2 values)                |
-| `alignment`            | `baseline` `middle` `top` `bottom`... | ☑️       | See [PlaceholderAlignment]                   |
-| `baseline`             | `alphabetic` `ideographic`            | ☑️       | See [TextBaseline]                           |
+| Parameter            | Value                                 | Required | Description                                  |
+|----------------------|---------------------------------------|----------|----------------------------------------------|
+| `padding` (simplify) | double                                | ✅        | [Padding value](#margin-values) (1~4 values) |
+| `hor`                | List\<double\>                        | ☑️       | Horizontal padding (1~2 values)              |
+| `ver`                | List\<double\>                        | ☑️       | Vertical padding (1~2 values)                |
+| `alignment`          | `baseline` `middle` `top` `bottom`... | ☑️       | See [PlaceholderAlignment]                   |
+| `baseline`           | `alphabetic` `ideographic`            | ☑️       | See [TextBaseline]                           |
 
 Example:
 

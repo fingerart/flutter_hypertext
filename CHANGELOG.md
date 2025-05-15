@@ -1,3 +1,8 @@
+## 0.0.1+8
+
+* Fixed the problem of invalid text attributes in special cases.
+* `weight` supports FontWeight alias.
+
 ## 0.0.1+7
 
 * Support web.

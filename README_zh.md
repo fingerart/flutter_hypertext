@@ -69,7 +69,7 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+7
+  flutter_hypertext: ^0.0.1+8
 ```
 
 ```dart
@@ -174,18 +174,18 @@ Hypertext(
 
 参数：
 
-| 参数名           | 值                                           | 必选 | 说明                                                                                           |
-|---------------|---------------------------------------------|----|----------------------------------------------------------------------------------------------|
-| `color`       | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 文本颜色，颜色名默认支持[CSS基本色](https://www.w3.org/wiki/CSS/Properties/color/keywords)[kBasicCSSColors] |
-| `background`  | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 文本背景色                                                                                        |
-| `size`        | double                                      | ☑️ | 文本大小                                                                                         |
-| `font-family` | font family name                            | ☑️ | 文本字体                                                                                         |
-| `weight`      | `100`~`900`                                 | ☑️ | 参见[FontWeight]                                                                               |
-| `font-style`  | `nomal` `italic`                            | ☑️ | 文本斜体类型[FontStyle]                                                                            |
-| `decor`       | `none` `underline` `overline` `lineThrough` | ☑️ | 装饰线条[TextDecoration]                                                                         |
-| `decor-style` | `double` `dashed` `dotted` `solid` `wavy`   | ☑️ | 装饰线条类型[TextDecorationStyle]                                                                  |
-| `decor-color` | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 装饰线条颜色                                                                                       |
-| `thickness`   | double                                      | ☑️ | 装饰线条厚度                                                                                       |
+| 参数名            | 值                                           | 必选 | 说明                                                                                           |
+|----------------|---------------------------------------------|----|----------------------------------------------------------------------------------------------|
+| `color`        | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 文本颜色，颜色名默认支持[CSS基本色](https://www.w3.org/wiki/CSS/Properties/color/keywords)[kBasicCSSColors] |
+| `background`   | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 文本背景色                                                                                        |
+| `size`         | double                                      | ☑️ | 文本大小                                                                                         |
+| `font-family`  | font family name                            | ☑️ | 文本字体                                                                                         |
+| `weight`(支持简化) | `100`~`900`、`bold`、`normal`                 | ✅️ | 参见[FontWeight]                                                                               |
+| `font-style`   | `nomal` `italic`                            | ☑️ | 文本斜体类型[FontStyle]                                                                            |
+| `decor`        | `none` `underline` `overline` `lineThrough` | ☑️ | 装饰线条[TextDecoration]                                                                         |
+| `decor-style`  | `double` `dashed` `dotted` `solid` `wavy`   | ☑️ | 装饰线条类型[TextDecorationStyle]                                                                  |
+| `decor-color`  | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 装饰线条颜色                                                                                       |
+| `thickness`    | double                                      | ☑️ | 装饰线条厚度                                                                                       |
 
 示例：
 
@@ -200,9 +200,9 @@ Hypertext(
 
 标签：`weight`
 
-| 参数名            | 值           | 必选 | 说明             |
-|----------------|:------------|----|----------------|
-| `weight`(支持简化) | `100`~`900` | ✅️ | 参见[FontWeight] |
+| 参数名            | 值                           | 必选 | 说明             |
+|----------------|:----------------------------|----|----------------|
+| `weight`(支持简化) | `100`~`900`、`bold`、`normal` | ✅️ | 参见[FontWeight] |
 
 示例：
 
@@ -215,9 +215,9 @@ Hypertext(
 
 标签：`b` `bold` `strong`
 
-| 参数名            | 值           | 必选 | 说明             |
-|----------------|:------------|----|----------------|
-| `weight`(支持简化) | `100`~`900` | ✅️ | 参见[FontWeight] |
+| 参数名           | 值                           | 必选 | 说明             |
+|---------------|:----------------------------|----|----------------|
+| `weight`(可简化) | `100`~`900`、`bold`、`normal` | ✅️ | 参见[FontWeight] |
 
 
 ```html
@@ -230,9 +230,9 @@ Hypertext(
 
 标签：`font-style`
 
-| 参数名                | 值                 | 必选 | 说明             |
-|--------------------|:------------------|----|----------------|
-| `font-style`(支持简化) | `normal` `italic` | ✅️ | 参见[FontWeight] |
+| 参数名               | 值                 | 必选 | 说明             |
+|-------------------|:------------------|----|----------------|
+| `font-style`(可简化) | `normal` `italic` | ✅️ | 参见[FontWeight] |
 
 示例：
 
@@ -255,12 +255,12 @@ Hypertext(
 
 标签：`text-decor`
 
-| 参数名           | 值                                           | 必选 | 说明                          |
-|---------------|:--------------------------------------------|----|-----------------------------|
-| `decor`(支持简化) | `none` `underline` `overline` `lineThrough` | ✅️ | 装饰线条[TextDecoration]        |
-| `style`       | `double` `dashed` `dotted` `solid` `wavy`   | ☑️ | 装饰线条类型[TextDecorationStyle] |
-| `color`       | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 装饰线条颜色                      |
-| `thickness`   | double                                      | ☑️ | 装饰线条厚度                      |
+| 参数名          | 值                                           | 必选 | 说明                          |
+|--------------|:--------------------------------------------|----|-----------------------------|
+| `decor`(可简化) | `none` `underline` `overline` `lineThrough` | ✅️ | 装饰线条[TextDecoration]        |
+| `style`      | `double` `dashed` `dotted` `solid` `wavy`   | ☑️ | 装饰线条类型[TextDecorationStyle] |
+| `color`      | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)            | ☑️ | 装饰线条颜色                      |
+| `thickness`  | double                                      | ☑️ | 装饰线条厚度                      |
 
 示例：
 
@@ -307,9 +307,9 @@ Hypertext(
 
 参数：
 
-| 参数名           | 值                                | 必选 | 说明   |
-|---------------|----------------------------------|----|------|
-| `color`(支持简化) | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称) | ✅️ | 文本颜色 |
+| 参数名          | 值                                | 必选 | 说明   |
+|--------------|----------------------------------|----|------|
+| `color`(可简化) | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称) | ✅️ | 文本颜色 |
 
 示例：
 
@@ -324,9 +324,9 @@ Hypertext(
 
 参数：
 
-| 参数名          | 值      | 必选 | 说明   |
-|--------------|--------|----|------|
-| `size`(支持简化) | double | ✅️ | 文本颜色 |
+| 参数名         | 值      | 必选 | 说明   |
+|-------------|--------|----|------|
+| `size`(可简化) | double | ✅️ | 文本颜色 |
 
 示例：
 
@@ -396,9 +396,9 @@ Hypertext(
 
 参数：
 
-| 参数名         | 值      | 必选 | 说明   |
-|-------------|--------|----|------|
-| `gap`(支持简化) | double | ✅️ | 间隙大小 |
+| 参数名        | 值      | 必选 | 说明   |
+|------------|--------|----|------|
+| `gap`(可简化) | double | ✅️ | 间隙大小 |
 
 示例：
 
@@ -415,13 +415,13 @@ Hypertext(
 
 参数：
 
-| 参数名             | 值                                     | 必选 | 说明                       |
-|-----------------|---------------------------------------|----|--------------------------|
-| `padding`(支持简化) | double                                | ✅️ | [边距值](#边距值)，接受 1~4 个值    |
-| `hor`           | List\<double\>                        | ☑️ | 水平边距，接受1~2个值             |
-| `ver`           | List\<double\>                        | ☑️ | 垂直边距，接受1~2个值             |
-| `alignment`     | `baseline` `middle` `top` `bottom`... | ☑️ | 参见[PlaceholderAlignment] |
-| `baseline`      | `alphabetic` `ideographic`            | ☑️ | 参见[TextBaseline]         |
+| 参数名            | 值                                     | 必选 | 说明                       |
+|----------------|---------------------------------------|----|--------------------------|
+| `padding`(可简化) | double                                | ✅️ | [边距值](#边距值)，接受 1~4 个值    |
+| `hor`          | List\<double\>                        | ☑️ | 水平边距，接受1~2个值             |
+| `ver`          | List\<double\>                        | ☑️ | 垂直边距，接受1~2个值             |
+| `alignment`    | `baseline` `middle` `top` `bottom`... | ☑️ | 参见[PlaceholderAlignment] |
+| `baseline`     | `alphabetic` `ideographic`            | ☑️ | 参见[TextBaseline]         |
 
 示例：
 
