@@ -143,6 +143,7 @@ class StyleMarkup extends TagMarkup {
     this.colorMapper,
     this.weight,
     this.fontStyle,
+    this.height,
     this.decoration,
     this.decorationStyle,
     this.decorationColor,
@@ -155,7 +156,7 @@ class StyleMarkup extends TagMarkup {
   final FontWeight? weight;
 
   final FontStyle? fontStyle;
-
+  final double? height;
   final TextDecoration? decoration;
   final Color? decorationColor;
   final TextDecorationStyle? decorationStyle;
@@ -169,6 +170,7 @@ class StyleMarkup extends TagMarkup {
     final font = optFontFamily(ctx, enableTagAttr: false);
     final fontWeight = optFontWeight(ctx, enableTagAttr: false);
     final fontStyle = optFontStyle(ctx, enableTagAttr: false);
+    final height = ctx.getDouble('height');
     final decor = optTextDecoration(
       ctx,
       attrPrefix: 'decor-',
@@ -182,6 +184,7 @@ class StyleMarkup extends TagMarkup {
         font != null ||
         fontWeight != null ||
         fontStyle != null ||
+        height != null ||
         decor != null) {
       style = TextStyle(
         color: color,
@@ -189,6 +192,7 @@ class StyleMarkup extends TagMarkup {
         fontFamily: font,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
+        height: height,
         backgroundColor: bgColor,
         decoration: decor?.decoration,
         decorationColor: decor?.color,
