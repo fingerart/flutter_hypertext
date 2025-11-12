@@ -5,10 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('test tokenizer', () {
     final source =
-        '<IMG src="https://example.com/avatar.png" alt="foo" />'
-        'hello <b>world</b>,</b> I\'m <gradient> <sub>foo</sub></gradient>, my email'
+        '<IMG src="https://example.com/avatar.png" alt="fo\'o" desc=\'b=ar\\\'"\' />'
+        '<gap=18/>'
+        'hello <b>wor\\<ld</b>,</b> I\'m <gradient> <sub>foo</sub></gradient>, my email'
         ' is <A href="mailto:foo@example.com">foo@example.com</A> '
-        '<color=red>ok</color> <size=18 size=20>font size 18</size->';
+        '<color=red\\">ok</color> <size=18 size=20>font size 18</size->';
 
     var tokenizer = HypertextTokenizer(source);
     var sb = StringBuffer();

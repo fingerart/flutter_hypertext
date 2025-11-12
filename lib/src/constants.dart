@@ -23,8 +23,8 @@ abstract final class Charcode {
   /// '"'
   static const int doubleQuote = 0x22;
 
-  /// '&'
-  static const int ampersand = 0x26;
+  /// '\'
+  static const int backslash = 0x5C;
 
   /// "'"
   static const int singleQuote = 0x27;

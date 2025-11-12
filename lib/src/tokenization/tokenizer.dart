@@ -82,6 +82,19 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     _state = _topState;
   }
 
+  void _processEscapeInAttribute(String allowedChar) {
+    _consumeEscape(allowedChar: allowedChar, fromAttribute: true);
+  }
+
+  void _consumeEscape({String? allowedChar, bool fromAttribute = false}) {
+    var output = char() ?? '';
+    if (fromAttribute) {
+      _attributeValue.write(output);
+    } else {
+      addToken(CharactersToken(output));
+    }
+  }
+
   /// 添加[Token]到队列
   void addToken(Token token) => _tokenQueue.add(token);
 
@@ -97,8 +110,11 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
       _state = _tagOpenState;
     } else if (isWhitespace(c)) {
       addToken(SpaceCharactersToken('$c${charsUntilSpace(true)}'));
+    } else if (c == '\\') {
+      _consumeEscape();
     } else {
-      final chars = charsUntil2(Charcode.lessThan, Charcode.nul);
+      final chars =
+          charsUntil3(Charcode.lessThan, Charcode.backslash, Charcode.nul);
       addToken(CharactersToken('$c$chars'));
     }
     return true;
@@ -351,6 +367,8 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     if (data == '"') {
       _markAttributeValueEnd(-1);
       _state = _afterAttributeValueState;
+    } else if (data == '\\') {
+      _processEscapeInAttribute('"');
     } else if (data == '\u0000') {
       addToken(ParseErrorToken('invalid-codepoint'));
       _attributeValue.write('\uFFFD');
@@ -361,7 +379,7 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     } else {
       _attributeValue.write(data);
       _attributeValue
-          .write(charsUntil2(Charcode.doubleQuote, Charcode.ampersand));
+          .write(charsUntil2(Charcode.doubleQuote, Charcode.backslash));
     }
     return true;
   }
@@ -372,6 +390,8 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     if (data == "'") {
       _markAttributeValueEnd(-1);
       _state = _afterAttributeValueState;
+    } else if (data == '\\') {
+      _processEscapeInAttribute('\'');
     } else if (data == '\u0000') {
       addToken(ParseErrorToken('invalid-codepoint'));
       _attributeValue.write('\uFFFD');
@@ -382,7 +402,7 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     } else {
       _attributeValue.write(data);
       _attributeValue
-          .write(charsUntil2(Charcode.singleQuote, Charcode.ampersand));
+          .write(charsUntil2(Charcode.singleQuote, Charcode.backslash));
     }
     return true;
   }
@@ -421,6 +441,8 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
       addToken(ParseErrorToken('eof-in-attribute-value-no-quotes'));
       _markAttributeValueEnd(-1);
       _state = _topState;
+    } else if (data == '\\') {
+      _consumeEscape(fromAttribute: true);
     } else if ('"\'=<`'.contains(data!)) {
       addToken(
           ParseErrorToken('unexpected-character-in-unquoted-attribute-value'));
@@ -437,6 +459,7 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
         Charcode.equals,
         Charcode.lessThan,
         Charcode.graveAccent,
+        Charcode.backslash,
         ...spaceCharacters
       }));
     }

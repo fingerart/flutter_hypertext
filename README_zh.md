@@ -69,7 +69,7 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+8
+  flutter_hypertext: ^0.0.1+9
 ```
 
 ```dart
