@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_hypertext/src/parser.dart';
+import 'package:flutter_hypertext/src/utils.dart';
 
 import '../color.dart';
 import '../constants.dart';
@@ -54,17 +56,43 @@ abstract class TagMarkup extends HyperMarkup {
 /// 基于一个模式的标记
 abstract class PatternMarkup extends HyperMarkup {
   PatternMarkup(
-    String pattern, {
+    String pattern,
+    String tag, {
     this.startCharacter,
     bool caseSensitive = true,
-  }) : pattern = RegExp(pattern, caseSensitive: caseSensitive);
+  })  : tags = [tag],
+        pattern = RegExp(pattern, caseSensitive: caseSensitive);
 
   /// 起始字符
-  final String? startCharacter;
+  final int? startCharacter;
 
   /// 匹配模式
   final RegExp pattern;
 
   @override
-  List<String> get tags => [''];
+  final List<String> tags;
+
+  bool tryMatch(PatternParser parser, [int? startMatchPos]) {
+    startMatchPos ??= parser.pos;
+
+    if (startCharacter != null &&
+        parser.charAt(startMatchPos) != startCharacter) {
+      return false;
+    }
+
+    final startMatch = pattern.matchAsPrefix(parser.source, startMatchPos);
+    if (startMatch == null) return false;
+
+    parser.writeText();
+
+    if (onMatch(parser, startMatch)) parser.consume(startMatch.match.length);
+    return true;
+  }
+
+  bool onMatch(PatternParser parser, Match startMatch) {
+    parser.addToken(StartTagToken(tags.first));
+    parser.addToken(CharactersToken(startMatch.match));
+    parser.addToken(EndTagToken(tags.first));
+    return true;
+  }
 }

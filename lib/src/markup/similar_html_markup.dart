@@ -264,7 +264,6 @@ class StyleMarkup extends TagMarkup {
 
     const weightAlias = {'bold': FontWeight.bold, 'normal': FontWeight.normal};
     weight ??= ctx.switchT(ctx.getBy(tags, 'weight'), weightAlias);
-    print('weight:$weight');
 
     return weight;
   }

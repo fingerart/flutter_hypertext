@@ -80,7 +80,7 @@ mixin SourceMixin implements Walker {
   void unget(String? ch) => source.unget(ch);
 }
 
-/// Provides a unicode stream of characters to the HtmlTokenizer.
+/// Provides a unicode stream of characters to the HypertextTokenizer.
 ///
 /// This class takes care of character encoding and removing or replacing
 /// incorrect byte-sequences and also provides column and line tracking.
@@ -94,20 +94,7 @@ class SourceStream implements Walker {
 
   var _offset = 0;
 
-  /// Initialise an HtmlInputStream.
-  ///
-  /// HtmlInputStream(source, [encoding]) -> Normalized stream from source
-  /// for use by html5lib.
-  ///
-  /// [source] can be either a `String` or a `List<int>` containing the raw
-  /// bytes.
-  ///
-  /// The optional encoding parameter must be a string that indicates
-  /// the encoding.  If specified, that encoding will be used,
-  /// regardless of any BOM or later declaration (such as in a meta
-  /// element)
-  ///
-  /// [parseMeta] - Look for a <meta> element containing encoding information
+  /// Initialise an SourceStream.
   SourceStream(String source) : _rawChars = source.codeUnits {
     reset();
   }

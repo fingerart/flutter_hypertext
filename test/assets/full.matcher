@@ -1,0 +1,11 @@
+img(src="https://example.com/avatar.png" alt="foo") []
+text() [\nhello\n]
+b() [world]
+text() [\n, I'm\n]
+gradient() []
+ u() [foo]
+text() [, my username is ]
+mention() [bar]
+text() [ , email is]
+a(href="mailto:foo@example.com") [foo@example.com]
+gap(gap="18")

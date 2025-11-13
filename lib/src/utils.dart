@@ -21,6 +21,11 @@ extension MapExtensions on Map? {
   bool get isNotEmpty => this != null && this!.isNotEmpty;
 }
 
+extension MatchExtensions on Match {
+  /// Returns the whole match String
+  String get match => this[0]!;
+}
+
 extension InlineSpanExtensions on InlineSpan {
   bool dfvChildren(InlineSpanVisitor visitor) {
     final span = this;
@@ -30,7 +35,7 @@ extension InlineSpanExtensions on InlineSpan {
         if (!visitor(child)) {
           return false;
         }
-        if(!child.dfvChildren(visitor)) return false;
+        if (!child.dfvChildren(visitor)) return false;
       }
     }
     return true;

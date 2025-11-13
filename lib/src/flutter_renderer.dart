@@ -192,7 +192,7 @@ class _HypertextState extends State<Hypertext> {
   /// Hypertext's theme extension.
   HypertextThemeExtension? _themeExt;
 
-  Map<String, HyperMarkup>? _markups;
+  List<HyperMarkup>? _markups;
 
   @override
   void didChangeDependencies() {
@@ -265,30 +265,18 @@ class _HypertextState extends State<Hypertext> {
 
   /// 更新所有的[HyperMarkup]
   void _updateMarkups() {
-    final markups = <String, HyperMarkup>{};
-
     final themeMarkups = _themeExt?.markups;
     if (themeMarkups.isEmpty && widget.markups.isEmpty) {
-      for (var m in kDefaultMarkups) {
-        for (var tag in m.tags) {
-          markups[tag] = m;
-        }
-      }
+      _markups = kDefaultMarkups;
+      return;
     }
 
+    final markups = <HyperMarkup>[];
     if (themeMarkups.isNotEmpty) {
-      for (var m in themeMarkups!) {
-        for (var tag in m.tags) {
-          markups[tag] = m;
-        }
-      }
+      markups.addAll(themeMarkups!);
     }
     if (widget.markups.isNotEmpty) {
-      for (var m in widget.markups!) {
-        for (var tag in m.tags) {
-          markups[tag] = m;
-        }
-      }
+      markups.addAll(widget.markups!);
     }
     _markups = markups;
   }
@@ -296,7 +284,7 @@ class _HypertextState extends State<Hypertext> {
   /// Update parser and rebuild [InlineSpan] tree.
   void _updateParser() {
     _children = null;
-    if (_markups?.isNotEmpty != true) {
+    if (_markups.isEmpty) {
       return; // 未定义任何标记，不需要任何解析操作
     }
 

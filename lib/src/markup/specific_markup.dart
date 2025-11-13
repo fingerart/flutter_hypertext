@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../markup.dart';
 import '../constants.dart';
 import '../span.dart';
 import '../utils.dart';
@@ -303,8 +304,8 @@ class PaddingMarkup extends TagMarkup {
 
 /// 邮件地址标记
 class EmailMarkup extends PatternMarkup {
-  EmailMarkup(this.style, {String pattern = emailPattern})
-      : super(pattern, caseSensitive: false);
+  EmailMarkup(this.style, {String pattern = emailPattern, String tag = 'email'})
+      : super(pattern, tag, caseSensitive: false);
 
   final TextStyle style;
 
@@ -316,13 +317,54 @@ class EmailMarkup extends PatternMarkup {
 
 /// 提及用户标记
 class MentionMarkup extends PatternMarkup {
-  MentionMarkup(this.style, {String pattern = mentionPattern})
-      : super(pattern, startCharacter: '@', caseSensitive: false);
+  MentionMarkup(
+    this.style, {
+    String pattern = mentionPattern,
+    String tag = 'mention',
+    this.enableLongPress = false,
+    this.enableTap = true,
+    this.alignment,
+    this.baseline,
+  }) : super(pattern, tag, startCharacter: Charcode.at, caseSensitive: false);
 
   final TextStyle style;
 
+  /// How the placeholder aligns vertically with the text.
+  ///
+  /// See [ui.PlaceholderAlignment] for details on each mode.
+  final PlaceholderAlignment? alignment;
+
+  /// The [TextBaseline] to align against when using [ui.PlaceholderAlignment.baseline],
+  /// [ui.PlaceholderAlignment.aboveBaseline], and [ui.PlaceholderAlignment.belowBaseline].
+  ///
+  /// This is ignored when using other alignment modes.
+  final TextBaseline? baseline;
+
+  final bool enableLongPress;
+  final bool enableTap;
+
   @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    return HypertextTextSpan(children: children, style: style);
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    final onLongPress = enableLongPress
+        ? () => ctx.fireEvent(MarkupLongPressEvent.from(ctx))
+        : null;
+    final onTap = enableTap || onLongPress == null
+        ? () => ctx.fireEvent(MarkupTapEvent.from(ctx))
+        : null;
+    Widget child = GestureDetector(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: Text.rich(HypertextTextSpan(children: children, style: style)),
+    );
+
+    final effectiveAlignment = alignment ?? PlaceholderAlignment.baseline;
+    final effectiveBaseline =
+        baseline ?? (alignment == null ? TextBaseline.alphabetic : null);
+
+    return HypertextWidgetSpan(
+      alignment: effectiveAlignment,
+      baseline: effectiveBaseline,
+      child: child,
+    );
   }
 }

@@ -14,6 +14,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final markups = [
+    ...kDefaultMarkups,
+    MentionMarkup(TextStyle(color: Colors.red)),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +33,7 @@ class _HomePageState extends State<HomePage> {
               L.of(context).description,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
+              markups: markups,
               onMarkupEvent: _onMarkupEvent,
             ),
             Hypertext(L.of(context).cases, onMarkupEvent: _onMarkupEvent),
@@ -59,7 +65,11 @@ class _HomePageState extends State<HomePage> {
               settings.toggleTheme(ThemeMode.light);
               break;
           }
-        } else if (url?.startsWith('route://') == true) {}
+        } else if (url?.startsWith('route://') == true) {
+          //
+        }
+      case 'mention':
+        print('mention @${event.asData<Map<String, String>>()['mention']}');
         break;
     }
   }

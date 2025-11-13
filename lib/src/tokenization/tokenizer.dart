@@ -437,6 +437,9 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     } else if (data == '>') {
       _markAttributeValueEnd(-1);
       _emitCurrentToken();
+    } else if (data == '/') {
+      _markAttributeValueEnd(-1);
+      _state = _selfClosingStartTagState;
     } else if (data == eof) {
       addToken(ParseErrorToken('eof-in-attribute-value-no-quotes'));
       _markAttributeValueEnd(-1);
@@ -459,6 +462,7 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
         Charcode.equals,
         Charcode.lessThan,
         Charcode.graveAccent,
+        Charcode.slash,
         Charcode.backslash,
         ...spaceCharacters
       }));

@@ -26,6 +26,9 @@ abstract final class Charcode {
   /// '\'
   static const int backslash = 0x5C;
 
+  /// '/'
+  static const int slash = 0x2F;
+
   /// "'"
   static const int singleQuote = 0x27;
 
@@ -58,6 +61,9 @@ abstract final class Charcode {
 
   /// z
   static const int lowerZ = 0x7A;
+
+  /// @
+  static int at = 0x40;
 }
 
 const spaceCharacters = {
