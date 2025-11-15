@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../markup.dart';
 import '../constants.dart';
-import '../span.dart';
 import '../utils.dart';
 import '_markup_io.dart' if (dart.library.js_util) '_markup_web.dart';
-import 'context.dart';
 import 'markup.dart';
 
 /// 文本渐变标记
@@ -302,30 +300,20 @@ class PaddingMarkup extends TagMarkup {
   }
 }
 
-/// 邮件地址标记
-class EmailMarkup extends PatternMarkup {
-  EmailMarkup(this.style, {String pattern = emailPattern, String tag = 'email'})
-      : super(pattern, tag, caseSensitive: false);
-
-  final TextStyle style;
-
-  @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext context) {
-    return HypertextTextSpan(children: children, style: style);
-  }
-}
-
-/// 提及用户标记
-class MentionMarkup extends PatternMarkup {
-  MentionMarkup(
+abstract class DefaultPatternMarkup extends PatternMarkup {
+  DefaultPatternMarkup(
     this.style, {
-    String pattern = mentionPattern,
-    String tag = 'mention',
+    required String pattern,
+    required String tag,
     this.enableLongPress = false,
     this.enableTap = true,
     this.alignment,
     this.baseline,
-  }) : super(pattern, tag, startCharacter: Charcode.at, caseSensitive: false);
+    this.cursor,
+    this.tooltip,
+    super.startCharacter,
+    super.caseSensitive,
+  }) : super(pattern, tag);
 
   final TextStyle style;
 
@@ -339,9 +327,11 @@ class MentionMarkup extends PatternMarkup {
   ///
   /// This is ignored when using other alignment modes.
   final TextBaseline? baseline;
-
   final bool enableLongPress;
   final bool enableTap;
+
+  final MouseCursor? cursor;
+  final String? tooltip;
 
   @override
   HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
@@ -351,11 +341,18 @@ class MentionMarkup extends PatternMarkup {
     final onTap = enableTap || onLongPress == null
         ? () => ctx.fireEvent(MarkupTapEvent.from(ctx))
         : null;
+
     Widget child = GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
       child: Text.rich(HypertextTextSpan(children: children, style: style)),
     );
+    if (tooltip != null) {
+      child = Tooltip(message: tooltip, child: child);
+    }
+    if (cursor != null) {
+      child = MouseRegion(cursor: cursor!, child: child);
+    }
 
     final effectiveAlignment = alignment ?? PlaceholderAlignment.baseline;
     final effectiveBaseline =
@@ -367,4 +364,51 @@ class MentionMarkup extends PatternMarkup {
       child: child,
     );
   }
+}
+
+/// 提及用户标记
+class MentionMarkup extends DefaultPatternMarkup {
+  MentionMarkup(
+    super.style, {
+    super.pattern = mentionPattern,
+    super.tag = 'mention',
+    super.startCharacter = Charcode.at,
+    super.enableLongPress,
+    super.enableTap,
+    super.cursor,
+    super.tooltip,
+    super.alignment,
+    super.baseline,
+  });
+}
+
+/// 邮件地址标记
+class EmailMarkup extends DefaultPatternMarkup {
+  EmailMarkup(
+    super.style, {
+    super.pattern = emailPattern,
+    super.tag = 'email',
+    super.enableLongPress,
+    super.enableTap,
+    super.cursor,
+    super.tooltip,
+    super.alignment,
+    super.baseline,
+  });
+}
+
+/// 话题标记
+class TopicMarkup extends DefaultPatternMarkup {
+  TopicMarkup(
+    super.style, {
+    super.pattern = topicPattern,
+    super.tag = 'topic',
+    super.startCharacter = Charcode.hash,
+    super.enableLongPress,
+    super.enableTap,
+    super.cursor,
+    super.tooltip,
+    super.alignment,
+    super.baseline,
+  });
 }

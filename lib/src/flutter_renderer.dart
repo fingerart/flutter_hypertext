@@ -198,7 +198,7 @@ class _HypertextState extends State<Hypertext> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final oldThemeExt = _themeExt;
-    _themeExt = Theme.of(context).extension();
+    _themeExt = HypertextThemeExtension.maybeOf(context);
     if (_themeExt != oldThemeExt || _parser == null) {
       _updateMarkups();
       _updateParser();
@@ -322,6 +322,14 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
     this.markups,
     this.colorMapper,
   });
+
+  static HypertextThemeExtension of(BuildContext context) {
+    return maybeOf(context)!;
+  }
+
+  static HypertextThemeExtension? maybeOf(BuildContext context) {
+    return Theme.of(context).extension();
+  }
 
   /// Whether to cast the attribute name in the parse marker to lowercase
   final bool lowercaseAttrName;

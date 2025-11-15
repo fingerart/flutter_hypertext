@@ -90,9 +90,12 @@ abstract class PatternMarkup extends HyperMarkup {
   }
 
   bool onMatch(PatternParser parser, Match startMatch) {
-    parser.addToken(StartTagToken(tags.first));
-    parser.addToken(CharactersToken(startMatch.match));
-    parser.addToken(EndTagToken(tags.first));
+    final tag = tags.first;
+    final content = startMatch.match;
+    final data = <String, String>{tag: content, 'value': content};
+    parser.addToken(StartTagToken(tag, data: data));
+    parser.addToken(CharactersToken(content));
+    parser.addToken(EndTagToken(tag));
     return true;
   }
 }

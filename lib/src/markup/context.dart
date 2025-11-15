@@ -13,8 +13,8 @@ class MarkupContext with _AttrsMixin {
     this.isSelfClose,
     this._eventHandler,
     ColorMapper? colorMapper,
-  ) : attrs = attrs ?? const {},
-      colorMapper = colorMapper ?? kBasicCSSColors;
+  )   : attrs = attrs ?? const {},
+        colorMapper = colorMapper ?? kBasicCSSColors;
 
   final String tag;
 
@@ -181,10 +181,6 @@ mixin _AttrsMixin {
     return null;
   }
 
-  T? switchT<T, TT>(TT t, Map<TT, T?> m) {
-    return m[t];
-  }
-
   T? whenExist2<T>(Map<String, T? Function(String value)> m) {
     for (var k in m.keys) {
       if (hasAttr(k)) {
@@ -193,6 +189,8 @@ mixin _AttrsMixin {
     }
     return null;
   }
+
+  V? switchT<V, K>(K k, Map<K, V?> m) => m[k];
 
   T? switchT2<T, TT>(TT t, Map<TT, T? Function(TT value)> m) {
     return m[t]?.call(t);

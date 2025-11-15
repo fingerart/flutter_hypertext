@@ -218,5 +218,6 @@ class PatternParser {
       if (patterns.any((element) => element.tryMatch(this))) continue;
       advanceBy(1);
     }
+    writeText();
   }
 }

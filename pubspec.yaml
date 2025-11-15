@@ -16,7 +16,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  path: ^1.9.1
+  path: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -56,11 +56,11 @@ flutter:
 
 screenshots:
   - description: 'flutter hypertext'
-    path: arts/flutter_hypertext.png
+    path: arts/flutter_hypertext.jpg
   - description: 'Chinese example'
-    path: arts/preview_zh.png
+    path: arts/preview_zh.jpg
   - description: 'English example'
-    path: arts/preview_en.png
+    path: arts/preview_en.jpg
 
 topics:
   - hypertext

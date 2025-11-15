@@ -63,7 +63,10 @@ abstract final class Charcode {
   static const int lowerZ = 0x7A;
 
   /// @
-  static int at = 0x40;
+  static const int at = 0x40;
+
+  /// #
+  static const int hash = 0x23;
 }
 
 const spaceCharacters = {
@@ -471,4 +474,7 @@ const emailPattern =
     r'([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4})((,[\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4}){1,})?';
 
 /// 提及用户
-const mentionPattern = '@[a-z0-9_-]+';
+const mentionPattern = '@[a-zA-Z0-9_-]+';
+
+/// 话题
+const topicPattern = '#[a-zA-Z0-9_-]+';

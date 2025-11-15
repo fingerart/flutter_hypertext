@@ -17,7 +17,7 @@ void main() {
     ];
     final parser = HypertextParser(fullSource, markups: markups);
     var b = DateTime.now().millisecondsSinceEpoch;
-    parser.parse();
+    print(parser.parse());
     print('took ${DateTime.now().millisecondsSinceEpoch - b}ms');
   });
 
