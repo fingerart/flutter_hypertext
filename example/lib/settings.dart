@@ -42,12 +42,22 @@ class Settings with ChangeNotifier {
     lightTheme = ThemeData.from(
       colorScheme: const ColorScheme.light(primary: Color(0xFF007AFF)),
     ).copyWith(
-      extensions: const [HypertextThemeExtension(colorMapper: lightColors)],
+      extensions: const [
+        HypertextThemeExtension(
+          colorMapper: lightColors,
+          markups: kDefaultMarkups,
+        ),
+      ],
     );
     darkTheme = ThemeData.from(
       colorScheme: const ColorScheme.dark(primary: Color(0xFF0A84FF)),
     ).copyWith(
-      extensions: const [HypertextThemeExtension(colorMapper: darkColors)],
+      extensions: const [
+        HypertextThemeExtension(
+          colorMapper: darkColors,
+          markups: kDefaultMarkups,
+        ),
+      ],
     );
   }
 

@@ -14,9 +14,9 @@ Hypertext is a highly extensible rich text widget that automatically parses styl
 
 View [online demo](https://fingerart.github.io/flutter_hypertext)
 
-| EN                                                                                          | ZH                                                                                          |
-|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/arts/preview_en.png) | ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/arts/preview_zh.png) |
+| EN                                                                                         | ZH                                                                                         |
+|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/doc/preview_en.jpg) | ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/doc/preview_zh.jpg) |
 
 
 ## Features
@@ -58,6 +58,7 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
     * [5) ImageMarkup](#5-imagemarkup)
     * [6) GapMarkup](#6-gapmarkup)
     * [7) PaddingMarkup](#7-paddingmarkup)
+  * [6) PatternMarkup](#6-patternmarkup)
   * [Special Notes](#special-notes)
     * [Color Names](#color-names)
     * [Hex Colors](#hex-colors)
@@ -70,7 +71,7 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+9
+  flutter_hypertext: ^0.0.1+10
 ```
 
 ```dart
@@ -433,6 +434,39 @@ Example:
 <padding hor="10, 20"/> <!-- Set left padding to 10, right padding to 20 -->
 <padding ver="20"/> <!-- Set vertical padding to 20 -->
 ```
+
+## 6) PatternMarkup
+
+A pattern-matching-based markup, used for recognizing and styling specific patterns such as user mentions (`@foo`), topics (`#flutter`), and email addresses (`foo@bar.com`).
+
+You can define custom pattern markups by extending `PatternMarkup` or `DefaultPatternMarkup`.
+
+**Public Constructor Parameters:**
+
+| Parameter Name    | Type                   | Required | Description                                                                   |
+|:------------------|:-----------------------|:---------|:------------------------------------------------------------------------------|
+| `style`           | `TextStyle`            | ✅️       | The text style to apply to the matched pattern.                               |
+| `pattern`         | `String`               | ✅️       | The regular expression string used for pattern matching.                      |
+| `tag`             | `String`               | ✅️       | The corresponding tag name in the lexical tree.                               |
+| `startCharacter`  | `int`                  | ☑️       | The starting matching character (used to reduce the number of regex matches). |
+| `enableLongPress` | `bool`                 | ☑️       | Whether to enable the long-press event.                                       |
+| `enableTap`       | `bool`                 | ☑️       | Whether to enable the tap (click) event.                                      |
+| `cursor`          | `MouseCursor`          | ☑️       | The mouse cursor style when hovering over the pattern.                        |
+| `tooltip`         | `String`               | ☑️       | The tooltip text displayed on mouse hover.                                    |
+| `alignment`       | `PlaceholderAlignment` | ☑️       | The alignment of the inline placeholder.                                      |
+| `baseline`        | `TextBaseline`         | ☑️       | The text baseline for the inline placeholder.                                 |
+
+**Predefined Pattern Markups:**
+
+> [!WARNING]
+> Using pattern markups may result in **slower performance** compared to not using them.
+> The default predefined markups are **not** automatically added to `Hypertext` and must be added manually (via `Hypertext.markups` or `HypertextThemeExtension.markups`).
+
+| Markup          | Description       | Usage Example |
+|:----------------|:------------------|:--------------|
+| `MentionMarkup` | Mention Tag       | `@foo`        |
+| `EmailMarkup`   | Email Address Tag | `foo@bar.com` |
+| `TopicMarkup`   | Topic Tag         | `#flutter`    |
 
 ## Special Notes
 

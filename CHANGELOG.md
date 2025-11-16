@@ -1,7 +1,7 @@
-## 0.0.1+8
+## 0.0.1+10
 
-* Fixed the problem of invalid text attributes in special cases.
-* `weight` supports FontWeight alias.
+* Fix conflict between self-closing tags and unquoted attributes.
+* Add `PatternMarkup` support.
 
 ## 0.0.1+8
 

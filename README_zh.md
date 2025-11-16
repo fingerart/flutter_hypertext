@@ -14,9 +14,9 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
 
 查看[在线演示](https://fingerart.github.io/flutter_hypertext)
 
-| EN                                                                                          | ZH                                                                                          |
-|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/arts/preview_en.png) | ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/arts/preview_zh.png) |
+| EN                                                                                         | ZH                                                                                         |
+|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/doc/preview_en.jpg) | ![](https://raw.githubusercontent.com/fingerart/flutter_hypertext/main/doc/preview_zh.jpg) |
 
 ## 特性
 
@@ -53,10 +53,11 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
       * [7. UnderlineMarkup](#7-underlinemarkup)
       * [8. ColorMarkup](#8-colormarkup)
       * [9. SizeMarkup](#9-sizemarkup)
-    * [4）GradientMarkup](#4gradientmarkup)
-    * [5）ImageMarkup](#5imagemarkup)
+    * [3）GradientMarkup](#3gradientmarkup)
+    * [4）ImageMarkup](#4imagemarkup)
     * [5）GapMarkup](#5gapmarkup)
-    * [5）PaddingMarkup](#5paddingmarkup)
+    * [6）PaddingMarkup](#6paddingmarkup)
+    * [7）PatternMarkup](#7patternmarkup)
   * [特别说明](#特别说明)
     * [颜色名称](#颜色名称)
     * [十六进制颜色](#十六进制颜色)
@@ -69,7 +70,7 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+9
+  flutter_hypertext: ^0.0.1+10
 ```
 
 ```dart
@@ -335,7 +336,7 @@ Hypertext(
 <size color=#FF0>bar</size>
 ```
 
-### 4）GradientMarkup
+### 3）GradientMarkup
 
 为指定范围文本设置线性渐变。
 
@@ -359,7 +360,7 @@ Hypertext(
 <gradient colors="#F00,#00F" rotation=45>bar</gradient>
 ```
 
-### 5）ImageMarkup
+### 4）ImageMarkup
 
 添加图片标记，支持通过`imageBuilder`以自定义解析`src`和创建图片Widget。
 
@@ -407,7 +408,7 @@ Hypertext(
 <gap gap="50"/>
 ```
 
-### 5）PaddingMarkup
+### 6）PaddingMarkup
 
 添加空白内部边距。
 
@@ -431,6 +432,40 @@ Hypertext(
 <padding hor="10, 20"/> <!--设置左边距为10，右边距为20-->
 <padding ver="20"/> <!--设置上下边距为20-->
 ```
+
+### 7）PatternMarkup
+
+一种基于模式匹配的标记，例如：提及用户(@foo)、话题(#flutter)、电子邮箱地址(foo@bar.com)。
+可通过继承 `PatternMarkup`、`DefaultPatternMarkup` 定义你想要的模式标记。
+
+**公共构造函数参数：**
+
+| 参数名             | 类型                     | 必选 | 说明                  |
+|-----------------|------------------------|----|---------------------|
+| style           | `TextStyle`            | ✅️ | 文本样式                |
+| pattern         | `String`               | ✅️ | 正则表达式               |
+| tag             | `String`               | ✅️ | 词法树中对应的tag名称        |
+| startCharacter  | `int`                  | ☑️ | 起始匹配字符（用于减少正则的匹配次数） |
+| enableLongPress | `bool`                 | ☑️ | 是否启用长按事件            |
+| enableTap       | `bool`                 | ☑️ | 是否启用点击事件            |
+| cursor          | `MouseCursor`          | ☑️ | 鼠标悬停样式              |
+| tooltip         | `String`               | ☑️ | 鼠标悬停时的提示文本          |
+| alignment       | `PlaceholderAlignment` |    |                     |
+| baseline        | `TextBaseline`         |    |                     |
+
+
+**预置模式标记：**
+
+> [!WARNING]
+> 使用模式标记的速度会弱于不使用的情况；
+> 默认预置的模式标记未添加到`Hypertext`中，需要手动添加（`Hypertext#markups`、`HypertextThemeExtension#markups`）。
+
+| 标记              | 说明       | 用法            |
+|-----------------|----------|:--------------|
+| `MentionMarkup` | 提及标记     | `@foo`        |
+| `EmailMarkup`   | 电子邮箱地址标记 | `foo@bar.com` |
+| `TopicMarkup`   | 话题标记     | `#flutter`    |
+
 
 ## 特别说明
 

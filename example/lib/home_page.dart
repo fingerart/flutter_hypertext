@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hypertext/hypertext.dart';
 import 'package:flutter_hypertext/markup.dart';
 import 'package:flutter_hypertext_example/settings.dart';
@@ -14,10 +15,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final markups = [
-    ...kDefaultMarkups,
-    MentionMarkup(TextStyle(color: Colors.red)),
-  ];
+  late List<HyperMarkup> markups;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final ext = HypertextThemeExtension.of(context);
+    markups = [
+      MentionMarkup(
+        cursor: SystemMouseCursors.click,
+        TextStyle(
+          color: ext.colorMapper?['appOrange'],
+          decoration: TextDecoration.underline,
+          decorationColor: ext.colorMapper?['appOrange'],
+        ),
+      ),
+      TopicMarkup(
+        cursor: SystemMouseCursors.copy,
+        tooltip: 'Click to copy',
+        TextStyle(color: ext.colorMapper?['appGreen']),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   void _onMarkupEvent(MarkupEvent event) {
     switch (event.tag) {
       case 'a':
-        var url = event.asData<Map<String, String>>()['href'];
+        final url = event.get<String>('href');
         if (url?.startsWith(RegExp('https?://')) == true) {
           launchUrlString(url!);
         } else if (url?.startsWith('fun://') == true) {
@@ -65,12 +84,18 @@ class _HomePageState extends State<HomePage> {
               settings.toggleTheme(ThemeMode.light);
               break;
           }
-        } else if (url?.startsWith('route://') == true) {
-          //
         }
       case 'mention':
-        print('mention @${event.asData<Map<String, String>>()['mention']}');
+        var mention = event[event.tag];
+        print('mention: $mention');
+        if (mention == '@hypertext') {
+          launchUrlString('https://pub.dev/packages/flutter_hypertext');
+        }
         break;
+      case 'topic':
+        final topic = event.require<String>(event.tag);
+        Clipboard.setData(ClipboardData(text: topic));
+        print('topic: $topic');
     }
   }
 }

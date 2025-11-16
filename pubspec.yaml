@@ -1,6 +1,6 @@
 name: flutter_hypertext
 description: "A highly extensible rich text widget that can automatically parse styles."
-version: 0.0.1+9
+version: 0.0.1+10
 homepage: https://github.com/fingerart/flutter_hypertext
 issue_tracker: https://github.com/fingerart/flutter_hypertext/issues
 
@@ -56,11 +56,11 @@ flutter:
 
 screenshots:
   - description: 'flutter hypertext'
-    path: arts/flutter_hypertext.jpg
+    path: doc/flutter_hypertext.jpg
   - description: 'Chinese example'
-    path: arts/preview_zh.jpg
+    path: doc/preview_zh.jpg
   - description: 'English example'
-    path: arts/preview_en.jpg
+    path: doc/preview_en.jpg
 
 topics:
   - hypertext
