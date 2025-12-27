@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../hypertext.dart';
 import '../color.dart';
 import '../constants.dart';
 import '../span.dart';
@@ -141,6 +142,7 @@ class StyleMarkup extends TagMarkup {
     String tag = 'style',
     super.alias,
     this.colorMapper,
+    this.styleMapper,
     this.weight,
     this.fontStyle,
     this.height,
@@ -150,8 +152,11 @@ class StyleMarkup extends TagMarkup {
     this.decorationThickness,
   }) : super(tag);
 
-  /// 字符串到[Color]的映射
+  /// String to [Color] mapping
   final ColorMapper? colorMapper;
+
+  /// String to [TextStyle] mapping
+  final StyleMapper? styleMapper;
 
   final FontWeight? weight;
 
@@ -177,7 +182,7 @@ class StyleMarkup extends TagMarkup {
       enableTagAttr: false,
     );
 
-    TextStyle? style;
+    TextStyle? style = optStyle(ctx);
     if (color != null ||
         bgColor != null ||
         size != null ||
@@ -186,7 +191,7 @@ class StyleMarkup extends TagMarkup {
         fontStyle != null ||
         height != null ||
         decor != null) {
-      style = TextStyle(
+      final overlayStyle = TextStyle(
         color: color,
         fontSize: size,
         fontFamily: font,
@@ -199,6 +204,7 @@ class StyleMarkup extends TagMarkup {
         decorationStyle: decor?.style,
         decorationThickness: decor?.thickness,
       );
+      style = style?.merge(overlayStyle) ?? overlayStyle;
     }
 
     return HypertextTextSpan(children: children, style: style);
@@ -215,6 +221,19 @@ class StyleMarkup extends TagMarkup {
       );
     }
     return context.getColor('color', colorMapper);
+  }
+
+  @protected
+  TextStyle? optStyle(MarkupContext context, {bool enableTagAttr = true}) {
+    final styleMapper = this.styleMapper ?? context.styleMapper;
+    if (enableTagAttr) {
+      return context.getStyleBy(
+        tags,
+        fallbackKey: 'name',
+        styleMapper: styleMapper,
+      );
+    }
+    return context.getStyle('color', styleMapper);
   }
 
   @protected
