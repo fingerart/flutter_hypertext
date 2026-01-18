@@ -101,9 +101,10 @@ class GradientMarkup extends TagMarkup {
 /// ImageMarkup的图片构建器
 typedef ImageMarkupBuilder = Widget? Function(
   BuildContext context,
-  String url, {
+  String uri, {
   double? width,
   double? height,
+  Color? color,
   BoxFit? fit,
   Alignment? alignment,
 });
@@ -114,18 +115,19 @@ typedef ImageMarkupBuilder = Widget? Function(
 /// 参数：
 /// - src: string, require
 /// - width: double
-/// - height: height
+/// - height: double
+/// - color
 ///
 /// 示例：
 /// ```
 /// <img src="https://example.com/img.png" height=100 />
 /// ```
 class ImageMarkup extends TagMarkup {
-  const ImageMarkup([
+  const ImageMarkup({
     this.alignment,
     this.baseline,
     this.imageBuilder = imageMarkupBuilder,
-  ]) : super('img', alias: const {'image'});
+  }) : super('img', alias: const {'image'});
 
   /// How the placeholder aligns vertically with the text.
   ///
@@ -158,6 +160,7 @@ class ImageMarkup extends TagMarkup {
           height = s[1];
         }
       }
+      final color = ctx.getColor('color', ctx.colorMapper);
       final fit = ctx.switchT(ctx.get('fit'), mpBoxFit);
       final alignment = ctx.switchT(ctx.get('align'), mpAlignment);
       final plAlignment = ctx.switchT(ctx.get('alignment'), mpPLAlignment);
@@ -179,6 +182,7 @@ class ImageMarkup extends TagMarkup {
                   url!,
                   width: width,
                   height: height,
+                  color: color,
                   fit: fit,
                   alignment: alignment,
                 ) ??

@@ -9,6 +9,7 @@ Widget? imageMarkupBuilder(
   String uri, {
   double? width,
   double? height,
+  Color? color,
   BoxFit? fit,
   Alignment? alignment,
 }) {
@@ -17,6 +18,7 @@ Widget? imageMarkupBuilder(
       uri,
       width: width,
       height: height,
+      color: color,
       alignment: alignment ?? Alignment.center,
       fit: fit,
     );
@@ -26,6 +28,7 @@ Widget? imageMarkupBuilder(
       uri.substring(8),
       width: width,
       height: height,
+      color: color,
       alignment: alignment ?? Alignment.center,
       fit: fit,
     );
@@ -34,6 +37,7 @@ Widget? imageMarkupBuilder(
     File(uri),
     width: width,
     height: height,
+    color: color,
     alignment: alignment ?? Alignment.center,
     fit: fit,
   );

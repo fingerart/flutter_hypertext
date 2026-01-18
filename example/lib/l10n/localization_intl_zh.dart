@@ -14,9 +14,12 @@ class LZh extends L {
 
   @override
   String get cases =>
-      '<color=labelSecondary>常见的使用场景：</color>\n1. 多语言下的富文本<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-zh\' cursor=click title=\'点击切换到中文\'>中文</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-en\' cursor=click title=\'Click to switch English\'>English</a></style>\n2. 多主题下的富文本<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-dark\' cursor=click title=\'点击切换到暗黑模式\'>暗黑模式</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-light\' cursor=click title=\'点击切换到日间模式\'>日间模式</a></style>\n3. 高亮关键字\n<gap=20 />......';
+      '<color=labelSecondary>常见的使用场景：</color>\n1. 多语言下的富文本<gap=10 /><style name=hyperlink><a href=\'fun://toggle-language-zh\' cursor=click title=\'点击切换到中文\'>中文</a></style> | <style name=hyperlink><a href=\'fun://toggle-language-en\' cursor=click title=\'Click to switch English\'>English</a></style>\n2. 多主题下的富文本<gap=10 /><style name=hyperlink><a href=\'fun://toggle-theme-mode-dark\' cursor=click title=\'点击切换到暗黑模式\'>暗黑模式</a></style> | <style name=hyperlink><a href=\'fun://toggle-theme-mode-light\' cursor=click title=\'点击切换到日间模式\'>日间模式</a></style>\n3. 高亮关键字\n<gap=20 />......';
 
   @override
   String get visitGitHub =>
       '<img src=\'asset://assets/images/github-mark.png\' size=20 /> 点击<a href=\'https://github.com/fingerart/flutter_hypertext\' cursor=click title=\'打开GitHub\'><text-decor underline>这里</text-decor></a>访问<style background=labelTertiary> GitHub </style>仓库';
+
+  @override
+  String get clickCopy => '点击复制到粘贴板';
 }

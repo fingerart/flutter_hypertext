@@ -1,11 +1,13 @@
-import 'dart:ui';
+import 'dart:ui' show Color;
+
+import 'package:flutter/material.dart' show TextStyle;
 
 import '../color.dart';
 import '../flutter_renderer.dart';
 import '../utils.dart';
 import 'event.dart';
 
-/// [HyperMarkup]的上下文
+/// [HyperMarkup]'s context
 class MarkupContext with _AttrsMixin {
   const MarkupContext(
     this.tag,
@@ -13,6 +15,7 @@ class MarkupContext with _AttrsMixin {
     this.isSelfClose,
     this._eventHandler,
     ColorMapper? colorMapper,
+    this.styleMapper,
   )   : attrs = attrs ?? const {},
         colorMapper = colorMapper ?? kBasicCSSColors;
 
@@ -26,6 +29,7 @@ class MarkupContext with _AttrsMixin {
   final bool isSelfClose;
 
   final ColorMapper colorMapper;
+  final StyleMapper? styleMapper;
 
   final HypertextEventHandler? _eventHandler;
 
@@ -169,6 +173,25 @@ mixin _AttrsMixin {
     }
     if (fallbackKey != null) return getColor(fallbackKey, colorMapper);
     return null;
+  }
+
+  TextStyle? getStyleBy(
+    List<String> ks, {
+    String? fallbackKey,
+    StyleMapper? styleMapper,
+  }) {
+    for (var key in ks) {
+      var value = getStyle(key, styleMapper);
+      if (value != null) return value;
+    }
+    if (fallbackKey != null) return getStyle(fallbackKey, styleMapper);
+    return null;
+  }
+
+  TextStyle? getStyle(String key, StyleMapper? styleMapper) {
+    final name = attrs[key];
+    if (name == null || name.isEmpty) return null;
+    return styleMapper?[name];
   }
 
   /// 当某个Key存在

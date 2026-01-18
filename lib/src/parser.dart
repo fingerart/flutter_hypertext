@@ -21,6 +21,7 @@ class HypertextParser {
     bool? lowercaseElementName,
     HypertextEventHandler? eventHandler,
     ColorMapper? colorMapper,
+    StyleMapper? styleMapper,
     bool? ignoreErrorMarkup,
   }) {
     final mm = <String, HyperMarkup>{};
@@ -39,6 +40,7 @@ class HypertextParser {
       lowercaseElementName: lowercaseElementName,
       eventHandler: eventHandler,
       colorMapper: colorMapper,
+      styleMapper: styleMapper,
       ignoreErrorMarkup: ignoreErrorMarkup,
     );
   }
@@ -51,6 +53,7 @@ class HypertextParser {
     bool? lowercaseElementName,
     this.eventHandler,
     this.colorMapper,
+    this.styleMapper,
     bool? ignoreErrorMarkup,
   })  : _markups = markups,
         _patternMarkups = patterns,
@@ -73,6 +76,7 @@ class HypertextParser {
 
   final bool _ignoreErrorMarkup;
   final ColorMapper? colorMapper;
+  final StyleMapper? styleMapper;
 
   /// 解析内容
   ///
@@ -156,7 +160,7 @@ class HypertextParser {
 
   HypertextSpan _markup(StartTagToken token, [List<HypertextSpan>? children]) {
     final m = _markups[token.name];
-    return m?.markup(children, token, eventHandler, colorMapper) ??
+    return m?.markup(children, token, eventHandler, colorMapper, styleMapper) ??
         HypertextTextSpan(children: children);
   }
 

@@ -141,7 +141,7 @@ final class HypertextTokenizer with SourceMixin implements Iterator<Token> {
     return true;
   }
 
-  /// <tag>...</_
+  /// `<tag>...</_`
   bool _closeTagOpenState() {
     final data = char();
     if (isLetter(data)) {

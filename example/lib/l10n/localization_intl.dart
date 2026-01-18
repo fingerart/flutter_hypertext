@@ -106,7 +106,7 @@ abstract class L {
   /// No description provided for @cases.
   ///
   /// In en, this message translates to:
-  /// **'<color=labelSecondary>Common use cases:</color>\n1. Rich text with multilingual support<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-zh\' cursor=click title=\'Click to switch to Chinese\'>中文</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-language-en\' cursor=click title=\'Click to switch to English\'>English</a></style>\n2. Rich text with different themes<gap=10 /><style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-dark\' cursor=click title=\'Click to switch to dark mode\'>Dark Mode</a></style> | <style size=12 color=labelSecondary decor=underline><a href=\'fun://toggle-theme-mode-light\' cursor=click title=\'Click to switch to light mode\'>Light Mode</a></style>\n3. Highlighting keywords\n<gap=20 />......'**
+  /// **'<color=labelSecondary>Common use cases:</color>\n1. Rich text with multilingual support<gap=10 /><style name=hyperlink><a href=\'fun://toggle-language-zh\' cursor=click title=\'Click to switch to Chinese\'>中文</a></style> | <style name=hyperlink><a href=\'fun://toggle-language-en\' cursor=click title=\'Click to switch to English\'>English</a></style>\n2. Rich text with different themes<gap=10 /><style name=hyperlink><a href=\'fun://toggle-theme-mode-dark\' cursor=click title=\'Click to switch to dark mode\'>Dark Mode</a></style> | <style name=hyperlink><a href=\'fun://toggle-theme-mode-light\' cursor=click title=\'Click to switch to light mode\'>Light Mode</a></style>\n3. Highlighting keywords\n<gap=20 />......'**
   String get cases;
 
   /// No description provided for @visitGitHub.
@@ -114,6 +114,12 @@ abstract class L {
   /// In en, this message translates to:
   /// **'<img src=\'asset://assets/images/github-mark.png\' size=20 /> Click <a href=\'https://github.com/fingerart/flutter_hypertext\' cursor=click title=\'Open GitHub\'><text-decor underline>here</text-decor></a> to visit the <style background=labelTertiary> GitHub </style> repository'**
   String get visitGitHub;
+
+  /// No description provided for @clickCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to copy'**
+  String get clickCopy;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

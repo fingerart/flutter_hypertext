@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../hypertext.dart';
 import '../color.dart';
 import '../constants.dart';
 import '../span.dart';
@@ -136,11 +137,29 @@ typedef FontTextDecoration = ({
 });
 
 /// 文本样式的聚合标签
+///
+/// 有效的标签名称：[style]
+/// 参数：
+/// - name
+/// - color
+/// - background
+/// - size
+/// - font-family
+/// - weight: [`100~900`|bold|normal]
+/// - font-style: [normal|italic] 参考[FontStyle]
+/// - decor: [none|underline|overline|lineThrough] 参考[TextDecoration]
+/// - decor-style: [double|dashed|dotted|solid|wavy] 参考[TextDecorationStyle]
+/// - decor-color
+/// - thickness
+///
+/// 示例1：`<style color=red background=white size=20 weight=900>hypertext</style>`
+/// 示例2：`<style name=your_style_name>hypertext</style>`
 class StyleMarkup extends TagMarkup {
   const StyleMarkup({
     String tag = 'style',
     super.alias,
     this.colorMapper,
+    this.styleMapper,
     this.weight,
     this.fontStyle,
     this.height,
@@ -150,8 +169,11 @@ class StyleMarkup extends TagMarkup {
     this.decorationThickness,
   }) : super(tag);
 
-  /// 字符串到[Color]的映射
+  /// String to [Color] mapping
   final ColorMapper? colorMapper;
+
+  /// String to [TextStyle] mapping
+  final StyleMapper? styleMapper;
 
   final FontWeight? weight;
 
@@ -177,7 +199,7 @@ class StyleMarkup extends TagMarkup {
       enableTagAttr: false,
     );
 
-    TextStyle? style;
+    TextStyle? style = optStyle(ctx);
     if (color != null ||
         bgColor != null ||
         size != null ||
@@ -186,7 +208,7 @@ class StyleMarkup extends TagMarkup {
         fontStyle != null ||
         height != null ||
         decor != null) {
-      style = TextStyle(
+      final overlayStyle = TextStyle(
         color: color,
         fontSize: size,
         fontFamily: font,
@@ -199,6 +221,7 @@ class StyleMarkup extends TagMarkup {
         decorationStyle: decor?.style,
         decorationThickness: decor?.thickness,
       );
+      style = style?.merge(overlayStyle) ?? overlayStyle;
     }
 
     return HypertextTextSpan(children: children, style: style);
@@ -215,6 +238,19 @@ class StyleMarkup extends TagMarkup {
       );
     }
     return context.getColor('color', colorMapper);
+  }
+
+  @protected
+  TextStyle? optStyle(MarkupContext context, {bool enableTagAttr = true}) {
+    final styleMapper = this.styleMapper ?? context.styleMapper;
+    if (enableTagAttr) {
+      return context.getStyleBy(
+        tags,
+        fallbackKey: 'name',
+        styleMapper: styleMapper,
+      );
+    }
+    return context.getStyle('name', styleMapper);
   }
 
   @protected

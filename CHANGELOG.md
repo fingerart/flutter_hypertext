@@ -1,3 +1,7 @@
+## 1.0.0+1
+
+* Add support for `StyleMapper`
+
 ## 0.0.1+10
 
 * Fix conflict between self-closing tags and unquoted attributes.

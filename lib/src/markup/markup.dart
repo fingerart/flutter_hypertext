@@ -21,6 +21,7 @@ abstract class HyperMarkup {
     StartTagToken token,
     HypertextEventHandler? eventHandler,
     ColorMapper? colorMapper,
+    StyleMapper? styleMapper,
   ) {
     final context = MarkupContext(
       token.name,
@@ -28,6 +29,7 @@ abstract class HyperMarkup {
       token.selfClosing,
       eventHandler,
       colorMapper,
+      styleMapper,
     );
 
     if (kDebugLogging) {

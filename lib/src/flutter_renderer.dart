@@ -9,6 +9,8 @@ import 'parser.dart';
 import 'span.dart';
 import 'utils.dart';
 
+typedef StyleMapper = Map<String, TextStyle>;
+
 /// Event handler
 typedef HypertextEventHandler = void Function(MarkupEvent event);
 
@@ -54,6 +56,7 @@ class Hypertext extends StatefulWidget {
     this.lowercaseElementName,
     this.ignoreErrorMarkup,
     this.colorMapper,
+    this.styleMapper,
     this.markups,
   });
 
@@ -164,8 +167,11 @@ class Hypertext extends StatefulWidget {
   /// Can be configured globally via [HypertextThemeExtension].
   final bool? lowercaseElementName;
 
-  /// 颜色名称映射，默认[kBasicCSSColors]
+  /// Color name mapping, default [kBasicCSSColors]
   final ColorMapper? colorMapper;
+
+  /// Style name mapping
+  final StyleMapper? styleMapper;
 
   /// Whether to block unresolved tags
   final bool? ignoreErrorMarkup;
@@ -295,6 +301,7 @@ class _HypertextState extends State<Hypertext> {
     final ignoreErrorMarkup =
         widget.ignoreErrorMarkup ?? _themeExt?.ignoreErrorMarkup;
     final colorMapper = widget.colorMapper ?? _themeExt?.colorMapper;
+    final styleMapper = widget.styleMapper ?? _themeExt?.styleMapper;
 
     _parser = HypertextParser(
       widget.text,
@@ -304,6 +311,7 @@ class _HypertextState extends State<Hypertext> {
       lowercaseElementName: lowEleName,
       ignoreErrorMarkup: ignoreErrorMarkup,
       colorMapper: colorMapper,
+      styleMapper: styleMapper,
     );
     _children = _parser!.parse();
   }
@@ -321,6 +329,7 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
     this.ignoreErrorMarkup = false,
     this.markups,
     this.colorMapper,
+    this.styleMapper,
   });
 
   static HypertextThemeExtension of(BuildContext context) {
@@ -328,7 +337,7 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
   }
 
   static HypertextThemeExtension? maybeOf(BuildContext context) {
-    return Theme.of(context).extension();
+    return Theme.of(context).extension<HypertextThemeExtension>();
   }
 
   /// Whether to cast the attribute name in the parse marker to lowercase
@@ -344,6 +353,8 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
 
   final ColorMapper? colorMapper;
 
+  final StyleMapper? styleMapper;
+
   @override
   ThemeExtension<HypertextThemeExtension> copyWith({
     bool? lowercaseAttrName,
@@ -351,6 +362,7 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
     bool? ignoreErrorMarkup,
     List<HyperMarkup>? markups,
     ColorMapper? colorMapper,
+    StyleMapper? styleMapper,
   }) {
     return HypertextThemeExtension(
       lowercaseAttrName: lowercaseAttrName ?? this.lowercaseAttrName,
@@ -358,6 +370,7 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
       ignoreErrorMarkup: ignoreErrorMarkup ?? this.ignoreErrorMarkup,
       markups: markups ?? this.markups,
       colorMapper: colorMapper ?? this.colorMapper,
+      styleMapper: styleMapper ?? this.styleMapper,
     );
   }
 
@@ -372,6 +385,7 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
       ignoreErrorMarkup: other?.ignoreErrorMarkup ?? ignoreErrorMarkup,
       markups: other?.markups ?? markups,
       colorMapper: other?.colorMapper ?? colorMapper,
+      styleMapper: other?.styleMapper ?? styleMapper,
     );
   }
 
@@ -384,13 +398,21 @@ class HypertextThemeExtension extends ThemeExtension<HypertextThemeExtension> {
           lowercaseElementName == other.lowercaseElementName &&
           ignoreErrorMarkup == other.ignoreErrorMarkup &&
           markups == other.markups &&
-          colorMapper == other.colorMapper;
+          colorMapper == other.colorMapper &&
+          styleMapper == other.styleMapper;
 
   @override
-  int get hashCode =>
-      lowercaseAttrName.hashCode ^
-      lowercaseElementName.hashCode ^
-      ignoreErrorMarkup.hashCode ^
-      markups.hashCode ^
-      colorMapper.hashCode;
+  int get hashCode => Object.hash(
+        lowercaseAttrName,
+        lowercaseElementName,
+        ignoreErrorMarkup,
+        markups,
+        colorMapper,
+        styleMapper,
+      );
+
+  @override
+  String toString() {
+    return 'HypertextThemeExtension{lowercaseAttrName: $lowercaseAttrName, lowercaseElementName: $lowercaseElementName, ignoreErrorMarkup: $ignoreErrorMarkup, markups: $markups, colorMapper: $colorMapper, styleMapper: $styleMapper}';
+  }
 }

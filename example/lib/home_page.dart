@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hypertext/hypertext.dart';
 import 'package:flutter_hypertext/markup.dart';
 import 'package:flutter_hypertext_example/settings.dart';
+import 'package:flutter_hypertext_example/theme_extension.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'l10n/localization_intl.dart';
@@ -15,25 +16,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<HyperMarkup> markups;
+  List<HyperMarkup> get markups => _markups!;
+  List<HyperMarkup>? _markups;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final ext = HypertextThemeExtension.of(context);
-    markups = [
+    final colorExt = AppColorsExtension.of(context);
+    _markups ??= [
       MentionMarkup(
         cursor: SystemMouseCursors.click,
         TextStyle(
-          color: ext.colorMapper?['appOrange'],
+          color: colorExt.appOrange,
           decoration: TextDecoration.underline,
-          decorationColor: ext.colorMapper?['appOrange'],
+          decorationColor: colorExt.appOrange,
         ),
       ),
       TopicMarkup(
         cursor: SystemMouseCursors.copy,
-        tooltip: 'Click to copy',
-        TextStyle(color: ext.colorMapper?['appGreen']),
+        tooltip: L.of(context).clickCopy,
+        TextStyle(color: colorExt.appGreen),
       ),
     ];
   }
@@ -67,10 +69,11 @@ class _HomePageState extends State<HomePage> {
     switch (event.tag) {
       case 'a':
         final url = event.get<String>('href');
-        if (url?.startsWith(RegExp('https?://')) == true) {
-          launchUrlString(url!);
-        } else if (url?.startsWith('fun://') == true) {
-          switch (url!.substring(6)) {
+        if (url == null || url.isEmpty) return;
+        if (url.startsWith(RegExp('https?://'))) {
+          launchUrlString(url);
+        } else if (url.startsWith('fun://')) {
+          switch (url.substring(6)) {
             case 'toggle-language-zh':
               settings.toggleChinese();
               break;
@@ -86,8 +89,7 @@ class _HomePageState extends State<HomePage> {
           }
         }
       case 'mention':
-        var mention = event[event.tag];
-        print('mention: $mention');
+        final mention = event[event.tag];
         if (mention == '@hypertext') {
           launchUrlString('https://pub.dev/packages/flutter_hypertext');
         }
@@ -95,7 +97,6 @@ class _HomePageState extends State<HomePage> {
       case 'topic':
         final topic = event.require<String>(event.tag);
         Clipboard.setData(ClipboardData(text: topic));
-        print('topic: $topic');
     }
   }
 }

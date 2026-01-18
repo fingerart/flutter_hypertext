@@ -29,7 +29,7 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
     * ...
 2. Event handling support
 3. Custom markup support
-4. Customizable color name mapping to easily support multi-theme scenarios
+4. Customize color or style name mapping to easily support multi-theme scenes
 5. Text style inheritance for `WidgetSpan`'s inner `child`
 
 ## Table of contents
@@ -40,7 +40,6 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
   * [Table of contents](#table-of-contents)
   * [Getting Started](#getting-started)
     * [Supported Parameters](#supported-parameters)
-    * [Custom Markups](#custom-markups)
   * [Use Cases](#use-cases)
   * [Predefined Markup Tags](#predefined-markup-tags)
     * [1) LinkMarkup](#1-linkmarkup)
@@ -59,6 +58,9 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
     * [6) GapMarkup](#6-gapmarkup)
     * [7) PaddingMarkup](#7-paddingmarkup)
   * [6) PatternMarkup](#6-patternmarkup)
+  * [Advanced](#advanced)
+    * [Custom Markups](#custom-markups)
+    * [Support for multiple themes](#support-for-multiple-themes)
   * [Special Notes](#special-notes)
     * [Color Names](#color-names)
     * [Hex Colors](#hex-colors)
@@ -71,7 +73,7 @@ View [online demo](https://fingerart.github.io/flutter_hypertext)
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+10
+  flutter_hypertext: ^1.0.0+1
 ```
 
 ```dart
@@ -89,42 +91,10 @@ Hypertext("Hello <color=red>Hypertext</color>")
 | `lowercaseElementName` | `true`            | Convert element names to lowercase               |
 | `ignoreErrorMarkup`    | `false`           | Ignore erroneous tags                            |
 | `colorMapper`          | `kBasicCSSColors` | Color name mapping (default is CSS basic colors) |
+| `styleMapper`          |                   | Supported style collections                      |
 | `markups`              | `kDefaultMarkups` | Supported markup tags                            |
 
 > Global default configuration can be set via `HypertextThemeExtension`
-
-### Custom Markups
-
-**Defining a Custom Markup:**
-
-```dart
-class CustomMarkup extends TagMarkup {
-  const CustomMarkup() : super('your-tag');
-
-  @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
-    return HypertextTextSpan(children: children, style: TextStyle());
-    return HypertextWidgetSpan(child: child);
-  }
-}
-```
-
-**Setting Custom Markup:**
-
-```dart
-Hypertext(
-    text,
-    markups: [...kDefaultMarkups, CustomMarkup()],
-)
-```
-
-Or
-
-```dart
-ThemeData(
-  extensions: [HypertextThemeExtension(markups: [...kDefaultMarkups, CustomMarkup()])],
-)
-```
 
 ## Use Cases
 
@@ -378,6 +348,7 @@ Parameters:
 | `size`      | List\<double\>                                                     | ☑️       | Image width and height (1~2 values)                    |
 | `width`     | double                                                             | ☑️       | Image width                                            |
 | `height`    | double                                                             | ☑️       | Image height                                           |
+| `color`     | [Hex Color](#hex-colors) or [Color Name](#color-names)             | ☑️       | Colorize the picture                                   |
 | `fit`       | `fill` `contain` `cover` `fitWidth` `fitHeight` `none` `scaleDown` | ☑️       | BoxFit modes                                           |
 | `align`     | `topLeft` `center` `bottomLeft`...                                 | ☑️       | Alignment options                                      |
 | `alignment` | `baseline` `middle` `top` `bottom`...                              | ☑️       | See [PlaceholderAlignment]                             |
@@ -386,7 +357,7 @@ Parameters:
 Example:
 
 ```html
-<img src="https://example.com/avatar.png" size=50 fit=cover/>
+<img src="https://example.com/avatar.png" size=50 fit=cover color=orange/>
 <img src="asset://images/icon.png" size="50,100"/>
 <img src="path/to/icon.png" width="50" height="50"/> <!--File path-->
 ```
@@ -467,6 +438,103 @@ You can define custom pattern markups by extending `PatternMarkup` or `DefaultPa
 | `MentionMarkup` | Mention Tag       | `@foo`        |
 | `EmailMarkup`   | Email Address Tag | `foo@bar.com` |
 | `TopicMarkup`   | Topic Tag         | `#flutter`    |
+
+## Advanced
+
+### Custom Markups
+
+**Defining a Custom Markup:**
+
+```dart
+class CustomMarkup extends TagMarkup {
+  const CustomMarkup() : super('your-tag');
+
+  @override
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    return HypertextTextSpan(children: children, style: TextStyle());
+    return HypertextWidgetSpan(child: child);
+  }
+}
+```
+
+**Setting Custom Markup:**
+
+```dart
+Hypertext(
+    text,
+    markups: [...kDefaultMarkups, CustomMarkup()],
+)
+```
+
+Or
+
+```dart
+ThemeData(
+  extensions: [HypertextThemeExtension(markups: [...kDefaultMarkups, CustomMarkup()])],
+)
+```
+
+### Support for multiple themes
+
+> You can see an **[ example ](example/lib/settings.dart)** of a theme adaptation。
+
+**1. Define color mapper**
+
+```dart
+final lightColorMapper = {
+  'appRed': appLightRed,
+  'appGreen': appLightGreen,
+};
+final darkColorMapper = {
+  'appRed': appDarkRed,
+  'appGreen': appDarkGreen,
+};
+```
+
+**2. Define style mapper**
+
+```dart
+final styleMapper = {
+  'myStyle': TextStyle(
+    fontSize: 12,
+    decoration: TextDecoration.underline,
+  ),
+};
+```
+
+**3. Apply to the theme**
+
+```dart
+final lightHypertextThemeExt = HypertextThemeExtension(
+  colorMapper: lightColorMapper,
+  styleMapper: styleMapper,
+);
+final darkHypertextThemeExt = HypertextThemeExtension(
+  colorMapper: darkColorMapper,
+  styleMapper: styleMapper,
+);
+
+final lightTheme = ThemeData(extensions: [lightHypertextThemeExt]);
+final darkTheme = ThemeData(extensions: [darkHypertextThemeExt]);
+
+MaterialApp(
+  themeMode: ThemeMode.light,
+  theme: lightTheme,
+  darkTheme: darkTheme,
+  locale: settings.local,
+  localizationsDelegates: L.localizationsDelegates,
+  supportedLocales: L.supportedLocales,
+  home: HomePage(),
+)
+```
+
+**4. Usage**
+
+```dart
+Hypertext(
+  "<gradient colors='appGreen,appRed' alignment=middle>Hypertext</gradient>是一个基于Flutter的<style name=myStyle>高扩展性</style>的富文本组件。"
+)
+```
 
 ## Special Notes
 

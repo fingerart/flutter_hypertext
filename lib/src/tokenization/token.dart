@@ -81,7 +81,7 @@ class CharactersToken extends StringToken {
 }
 
 /// 空白字符串词法单元
-/// 位于两个标签之间的空白，如：<foo> <bar>hello</bar></foo>
+/// 位于两个标签之间的空白，如：`<foo> <bar>hello</bar></foo>`
 class SpaceCharactersToken extends StringToken {
   SpaceCharactersToken([super.data]);
 }

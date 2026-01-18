@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 
-const kDebugLogging = true;
+const kDebugLogging = false;
 
 final String? eof = null;
 

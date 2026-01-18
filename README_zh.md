@@ -28,7 +28,7 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
     * ...
 2. 支持事件处理
 3. 自定义标记
-4. 自定义颜色名称映射，轻松应对多主题场景
+4. 自定义颜色或样式名称映射，轻松支持多主题场景
 5. 文本样式遗传给`WidgetSpan`内部`child`
 
 ## 目录
@@ -39,7 +39,6 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
   * [目录](#目录)
   * [开始使用](#开始使用)
     * [支持参数](#支持参数)
-    * [自定义标记](#自定义标记)
   * [场景](#场景)
   * [预置标记列表](#预置标记列表)
     * [1）LinkMarkup](#1linkmarkup)
@@ -58,6 +57,9 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
     * [5）GapMarkup](#5gapmarkup)
     * [6）PaddingMarkup](#6paddingmarkup)
     * [7）PatternMarkup](#7patternmarkup)
+  * [进阶使用](#进阶使用)
+    * [一、自定义标记](#一自定义标记)
+    * [二、支持多主题](#二支持多主题)
   * [特别说明](#特别说明)
     * [颜色名称](#颜色名称)
     * [十六进制颜色](#十六进制颜色)
@@ -70,7 +72,7 @@ Hypertext是一个可自动解析样式的高扩展性富文本组件。
 
 ```yaml
 dependencies:
-  flutter_hypertext: ^0.0.1+10
+  flutter_hypertext: ^1.0.0+1
 ```
 
 ```dart
@@ -88,41 +90,10 @@ Hypertext("Hello <color=red>Hypertext</color>")
 | `lowercaseElementName` | `true`            | 元素名称转换为小写        |
 | `ignoreErrorMarkup`    | `false`           | 屏蔽错误的标签          |
 | `colorMapper`          | `kBasicCSSColors` | 颜色名称映射（默认CSS基础色） |
+| `styleMapper`          |                   | 支持的样式集合          |
 | `markups`              | `kDefaultMarkups` | 支持的标记集合          |
 
 > 可通过`HypertextThemeExtension`设置全局默认配置
-
-### 自定义标记
-
-**定义标记：**
-```dart
-class CustomMarkup extends TagMarkup {
-  const CustomMarkup() : super('your-tag');
-
-  @override
-  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
-    return HypertextTextSpan(children: children, style: TextStyle());
-    return HypertextWidgetSpan(child: child);
-  }
-}
-```
-
-**设置标记：**
-
-```dart
-Hypertext(
-    text,
-    markups: [...kDefaultMarkups, CustomMarkup()],
-)
-```
-
-或者
-
-```dart
-ThemeData(
-  extensions: [HypertextThemeExtension(markups: [...kDefaultMarkups, CustomMarkup()])],
-)
-```
 
 ## 场景
 
@@ -376,6 +347,7 @@ Hypertext(
 | `size`      | List\<double\>                                                     | ☑️ | 图片宽高，接受1~2个值，`size=20` `size="10,20"`   |
 | `width`     | double                                                             | ☑️ | 图片宽                                     |
 | `height`    | double                                                             | ☑️ | 图片高                                     |
+| `color`     | [十六进制颜色](#十六进制颜色) 或 [颜色名](#颜色名称)                                   | ☑️ | 对图片进行着色                                 |
 | `fit`       | `fill` `contain` `cover` `fitWidth` `fitHeight` `none` `scaleDown` | ☑️ | 填充模式[BoxFit]                            |
 | `align`     | `topLeft` `center` `bottomLeft`...                                 | ☑️ | 对齐方式[Alignment]                         |
 | `alignment` | `baseline` `middle` `top` `bottom`...                              | ☑️ | 参见[PlaceholderAlignment]                |
@@ -384,7 +356,7 @@ Hypertext(
 示例：
 
 ```html
-<img src="https://example.com/avatar.png" size=50 fit=cover/>
+<img src="https://example.com/avatar.png" size=50 fit=cover color=orange/>
 <img src="asset://images/icon.png" size="50,100"/>
 <img src="path/to/icon.png" width="50" height="50"/> <!--文件路径-->
 ```
@@ -466,6 +438,104 @@ Hypertext(
 | `EmailMarkup`   | 电子邮箱地址标记 | `foo@bar.com` |
 | `TopicMarkup`   | 话题标记     | `#flutter`    |
 
+
+## 进阶使用
+
+### 一、自定义标记
+
+**1. 定义标记：**
+```dart
+class CustomMarkup extends TagMarkup {
+  const CustomMarkup() : super('your-tag');
+
+  @override
+  HypertextSpan onMarkup(List<HypertextSpan>? children, MarkupContext ctx) {
+    // Do something
+    return HypertextTextSpan(children: children, style: TextStyle());
+    // or
+    return HypertextWidgetSpan(child: child);
+  }
+}
+```
+
+**2. 设置标记：**
+
+```dart
+Hypertext(
+    "some text <your-tag>content</your-tag>",
+    markups: [...kDefaultMarkups, CustomMarkup()],
+)
+```
+
+或者
+
+```dart
+ThemeData(
+  extensions: [HypertextThemeExtension(markups: [...kDefaultMarkups, CustomMarkup()])],
+)
+```
+
+### 二、支持多主题
+
+> 可查看主题适配的 **[示例](example/lib/settings.dart)**。
+
+**1. 定义颜色映射**
+
+```dart
+final lightColorMapper = {
+  'appRed': appLightRed,
+  'appGreen': appLightGreen,
+};
+final darkColorMapper = {
+  'appRed': appDarkRed,
+  'appGreen': appDarkGreen,
+};
+```
+
+**2. 定义样式映射**
+
+```dart
+final styleMapper = {
+  'myStyle': TextStyle(
+    fontSize: 12,
+    decoration: TextDecoration.underline,
+  ),
+};
+```
+
+**3. 应用到主题中**
+
+```dart
+final lightHypertextThemeExt = HypertextThemeExtension(
+  colorMapper: lightColorMapper,
+  styleMapper: styleMapper,
+);
+final darkHypertextThemeExt = HypertextThemeExtension(
+  colorMapper: darkColorMapper,
+  styleMapper: styleMapper,
+);
+
+final lightTheme = ThemeData(extensions: [lightHypertextThemeExt]);
+final darkTheme = ThemeData(extensions: [darkHypertextThemeExt]);
+
+MaterialApp(
+  themeMode: ThemeMode.light,
+  theme: lightTheme,
+  darkTheme: darkTheme,
+  locale: settings.local,
+  localizationsDelegates: L.localizationsDelegates,
+  supportedLocales: L.supportedLocales,
+  home: HomePage(),
+)
+```
+
+**4. 使用**
+
+```dart
+Hypertext(
+  "<gradient colors='appGreen,appRed' alignment=middle>Hypertext</gradient>是一个基于Flutter的<style name=myStyle>高扩展性</style>的富文本组件。"
+)
+```
 
 ## 特别说明
 
